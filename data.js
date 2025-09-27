@@ -101,4 +101,7 @@ const VICTOR_COMPLETIONS = [
     
     // Example List% run (Flamewall)
     { levelName: "Flamewall", name: "List Run Player", video: "https://example.com/list", date: "2025-10-01", percent: 78, tag: "List Run" },
+
+    // Example Run (Avernus)
+    { levelName: "Avernus", name: "Amongussy", video: "https://example.com/list", date: "2025-09-28", percent: 99, tag: "World Record" },
 ];
