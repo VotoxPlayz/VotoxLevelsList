@@ -68,6 +68,13 @@ function calculateVLLPoints(P_100, percentage, listPercentThreshold) {
 /**
  * Processes the raw LEVEL_DATA, calculates rank, VLL Points, and merges records.
  */
+// script.js
+
+// ... (other functions remain the same: calculateExponentialPoints, calculateVLLPoints)
+
+/**
+ * Processes the raw LEVEL_DATA, calculates rank, VLL Points, and merges records.
+ */
 function processLevelData() {
     // CRITICAL FIX: Ensure LEVEL_DATA exists and is an array before processing
     if (typeof LEVEL_DATA === 'undefined' || !Array.isArray(LEVEL_DATA) || LEVEL_DATA.length === 0) {
@@ -118,8 +125,57 @@ function processLevelData() {
             minWR: level.minWR || 0 
         };
     });
+    // LOGGING: This line is helpful for debugging to confirm the data processed
+    console.log("Processed Levels:", processedLevels); 
 }
 
+// ... (setupSubmitPage and handleLevelChange functions remain the same)
+
+function renderLevelList() {
+    const sidebar = document.getElementById('level-list-sidebar');
+    const detailsContainer = document.getElementById('level-details-container');
+    const recordsSidebar = document.getElementById('level-victors-list');
+
+    if (!sidebar || !detailsContainer || !recordsSidebar) return;
+
+    // Reset list layout
+    sidebar.innerHTML = '<h3>VLL Levels</h3>';
+    detailsContainer.innerHTML = '';
+    recordsSidebar.innerHTML = '';
+    
+    // CRITICAL CHECK: Attempt to process data if it's empty
+    if (processedLevels.length === 0) {
+        processLevelData(); 
+        if (processedLevels.length === 0) {
+            sidebar.innerHTML += '<p style="padding: 10px;">Levels failed to load. Check console for data errors.</p>';
+            return;
+        }
+    }
+
+    processedLevels.forEach(level => {
+        const levelItem = document.createElement('div');
+        levelItem.classList.add('level-list-item');
+        levelItem.id = `level-item-${level.rank}`; 
+        
+        // Use the level's actual creator name
+        levelItem.innerHTML = `<span class="level-rank">#${level.rank} - </span><span class="level-name">${level.name}</span><span class="level-creator">by ${level.creator}</span>`;
+        
+        levelItem.addEventListener('click', () => {
+            document.querySelectorAll('.level-list-item').forEach(item => item.classList.remove('active'));
+            levelItem.classList.add('active');
+            renderLevelDetails(level);
+        });
+        sidebar.appendChild(levelItem);
+    });
+
+    if (processedLevels.length > 0) {
+        // Automatically click the first level to show its details
+        const firstItem = document.getElementById('level-item-1');
+        if(firstItem) firstItem.click();
+    }
+}
+
+// ... (renderLevelDetails, calculateLeaderboardData, and renderLeaderboard functions remain the same)
 // ----------------------------------------------------------------------
 // --- SUBMIT PAGE LOGIC ---
 // ----------------------------------------------------------------------
