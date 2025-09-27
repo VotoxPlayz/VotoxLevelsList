@@ -89,7 +89,7 @@ function processLevelData() {
                 points: calculateVLLPoints(P_100, record.percent, level.listPercent)
             }));
 
-            // Find the World Record (highest run < 100%)
+            // Find the World Record (highest run < 100% that meets minWR)
             const wrRecord = processedRecords
                 .filter(r => r.percent < 100 && r.percent >= level.minWR)
                 .sort((a, b) => b.percent - a.percent)[0];
@@ -104,8 +104,11 @@ function processLevelData() {
                 rank: rank,
                 P_100: P_100, // Store 100% points for display
                 records: processedRecords,
-                currentWR: wrRecord ? wrRecord.percent : level.currentWR, // Use the highest submitted WR, or data.js value
-                listRunWR: listRunRecord ? listRunRecord.percent : null, // The highest run that actually earned list points
+                // The WR is either the Verifier's 100% run, or the highest submitted run < 100%
+                currentWR: (level.verifier && processedRecords.find(r => r.name === level.verifier && r.percent === 100))
+                            ? '100' // If the verifier beat it, 100% is the WR
+                            : (wrRecord ? wrRecord.percent : level.currentWR), // Otherwise use the highest non-100 WR, or default
+                listRunWR: listRunRecord ? listRunRecord.percent : null, 
                 minWR: level.minWR || 0 // Default to 0 if missing
             };
         });
@@ -153,7 +156,7 @@ function setupSubmitPage() {
 function handleLevelChange() {
     const levelSelect = document.getElementById('submit-level-select');
     const rawFootageInput = document.getElementById('raw-footage'); 
-    const rawFootageLabel = document.querySelector('label[for="raw-footage"]'); 
+    const rawFootageLabel = document.querySelector('#raw-footage-row label'); // Select the label within the row
     
     if (!levelSelect || !rawFootageInput || !rawFootageLabel) return;
     
@@ -163,10 +166,10 @@ function handleLevelChange() {
     // Logic: Raw footage is mandatory for Top 15 
     if (rank > 0 && rank <= 15) {
         rawFootageInput.setAttribute('required', 'true');
-        rawFootageLabel.innerHTML = 'Raw Footage <span style="color:red;">(Required for Top 15):</span>';
+        rawFootageLabel.innerHTML = 'Raw Footage (Top 15 Only): <span class="required-asterisk">*</span>';
     } else {
         rawFootageInput.removeAttribute('required');
-        rawFootageLabel.innerHTML = 'Raw Footage (Optional):';
+        rawFootageLabel.innerHTML = 'Raw Footage (Top 15 Only):'; // No asterisk for optional
     }
 }
 
@@ -225,6 +228,7 @@ function renderLevelDetails(level) {
     // Calculate List Points for the List% threshold
     const P_list = (level.P_100 * 0.1).toFixed(2);
     
+    // Verifier logic
     const verifierName = level.verifier === level.creator ? level.verifier : (level.verifier || "N/A");
 
     // VLL Points Display string (List% and 100%)
@@ -270,7 +274,7 @@ function renderLevelDetails(level) {
                 <span class="right-text">Points / %</span>
             </div>
         `;
-        // Sort by Points (desc), then Percentage (desc), then Date (asc)
+        // Sort: 1. Points (desc), 2. Percentage (desc), 3. Date (asc)
         level.records.sort((a, b) => {
             if (b.points !== a.points) return b.points - a.points;
             if (b.percent !== a.percent) return b.percent - a.percent;
@@ -278,6 +282,7 @@ function renderLevelDetails(level) {
         });
         
         level.records.forEach(record => {
+            // Updated tag logic to default to 'Victor' after the top 3
             const tagClass = {
                 'Verifier': 'tag-verifier',
                 'World Record': 'tag-diamond',
@@ -285,6 +290,7 @@ function renderLevelDetails(level) {
                 'Second Victor': 'tag-silver',
                 'Third Victor': 'tag-bronze',
                 'List Run': 'tag-normal',
+                'Victor': 'tag-normal', // Use 'Victor' for 4th+ completions
             }[record.tag] || 'tag-normal';
 
             const pointsDisplay = record.points > 0 
@@ -295,7 +301,7 @@ function renderLevelDetails(level) {
                 <div class="victor-item">
                     <span class="victor-name">
                         ${record.name}
-                        <span class="victor-tag ${tagClass}">${record.tag || 'Normal'}</span>
+                        <span class="victor-tag ${tagClass}">${record.tag || 'Victor'}</span>
                     </span>
                     <span class="right-text">
                         ${pointsDisplay}
