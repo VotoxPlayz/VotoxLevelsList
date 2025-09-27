@@ -3,10 +3,11 @@
 :root {
     --bg-color: #1a1a1a;
     --text-color: #f0f0f0;
-    --accent-color: #9370DB; /* Medium Purple - VIOLETY ACCENT RESTORED */
+    --accent-color: #9370DB; /* Medium Purple - VLL Accent */
     --submit-button-color: #9370DB; 
     --main-panel-bg: #2b2b2b;
     --sidebar-bg: #222222;
+    --level-list-bg: #282828; /* New background for list items (always visible) */
     --border-color: #383838;
     --error-color: #d40000;
 }
@@ -109,10 +110,10 @@ nav a:hover {
     line-height: 1.6;
 }
 
-/* HOMEPAGE BUTTONS: Revert to Purple Button / Black Text */
+/* HOMEPAGE BUTTONS */
 .home-buttons button {
     background-color: var(--accent-color);
-    color: var(--bg-color); /* Dark text */
+    color: var(--bg-color); 
     padding: 12px 25px;
     border: none;
     border-radius: 4px;
@@ -124,7 +125,7 @@ nav a:hover {
 }
 
 .home-buttons button:hover {
-    background-color: #7b58c7; /* Darker purple on hover */
+    background-color: #7b58c7; 
     transform: translateY(-1px);
 }
 
@@ -174,7 +175,6 @@ nav a:hover {
     padding: 20px 0;
 }
 
-/* Base style for the three main panel columns */
 #level-list-sidebar, #level-details-container, #level-victors-list {
     background-color: var(--sidebar-bg); 
     border-radius: 8px;
@@ -196,10 +196,11 @@ nav a:hover {
     padding: 10px 15px;
     margin-bottom: 5px;
     cursor: pointer;
-    background-color: transparent; 
+    background-color: var(--level-list-bg); /* Always show a background/button look */
     border-radius: 4px;
     transition: background-color 0.2s, box-shadow 0.2s, border 0.2s;
     line-height: 1.3;
+    border: 1px solid transparent; /* Default transparent border */
 }
 
 /* Hover and Active states for interactivity */
@@ -207,12 +208,12 @@ nav a:hover {
     background-color: #333;
 }
 
-/* FIX: Add border to the active level */
+/* Active state for selection */
 .level-list-item.active {
     background-color: var(--accent-color); 
     color: var(--bg-color); 
     box-shadow: 0 0 8px rgba(147, 112, 219, 0.6);
-    border: 1px solid #c8a2c8; /* Lightened border */
+    border: 1px solid #c8a2c8; 
 }
 
 /* Styling for the text inside the list item */
@@ -302,7 +303,7 @@ nav a:hover {
 
 /* --- RECORDS LIST (Right Column) --- */
 #level-victors-list h3 {
-    color: var(--accent-color); /* Using accent color for records title */
+    color: var(--accent-color); 
     margin-bottom: 10px;
     padding-bottom: 10px;
     text-align: left; 
@@ -338,7 +339,7 @@ nav a:hover {
     font-weight: bold;
 }
 
-/* Tags Styling (Kept to display below player name) */
+/* Tags Styling */
 .victor-tag-container {
     display: flex; 
     margin-top: 4px;
@@ -387,7 +388,7 @@ nav a:hover {
 }
 
 
-/* --- SUBMISSION FORM STYLING (Used on Submit Page) --- */
+/* --- SUBMISSION FORM STYLING --- */
 
 .submission-form-container {
     max-width: 800px; 
@@ -505,4 +506,145 @@ nav a:hover {
 .leaderboard-table tr th:nth-child(1),
 .leaderboard-table tr th:nth-child(3) {
     text-align: center;
+}
+
+/* --- STATS VIEWER STYLING --- */
+
+.stats-viewer-container {
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+.stats-viewer-container h2 {
+    color: var(--accent-color);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+#stats-username-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--main-panel-bg);
+    color: var(--text-color);
+}
+
+.search-bar button {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+.search-bar button:hover {
+    background-color: #7b58c7;
+}
+
+/* Stats Output Container */
+#player-stats-output {
+    background-color: var(--sidebar-bg);
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.player-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.player-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: var(--main-panel-bg);
+    border: 3px solid var(--accent-color);
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.player-info h3 {
+    font-size: 2em;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.player-info p {
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.stat-box {
+    background-color: var(--main-panel-bg);
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 3px solid var(--accent-color);
+}
+
+.stat-box .value {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.stat-box .label {
+    font-size: 0.8em;
+    color: #aaa;
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+
+.rankings-section h4 {
+    color: var(--accent-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.rankings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.rank-item {
+    background-color: var(--main-panel-bg);
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.rank-label {
+    font-weight: bold;
+}
+
+.rank-value {
+    color: var(--accent-color);
 }
