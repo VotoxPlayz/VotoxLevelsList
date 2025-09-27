@@ -78,7 +78,6 @@ const LEVEL_DATA = [
         currentWR: null
     },
     // Add more levels here with the new structure.
-    // NOTE: The more levels you add, the closer the lowest rank will get to 1 point.
 ];
 
 /**
