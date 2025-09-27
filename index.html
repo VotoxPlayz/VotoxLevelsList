@@ -3,48 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The VLL - Vaulted Lists Leaderboard</title>
+    <title>The FHLL - Former Hardest Levels List</title>
     <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
 
     <header>
-        <a href="#home" class="logo">The VLL</a>
+        <a href="#home" class="logo">The FHLL</a>
         <nav>
             <a href="#list" id="nav-list">The List</a>
             <a href="#leaderboard" id="nav-leaderboard">Leaderboard</a>
             <a href="#submit" id="nav-submit">Submit Record</a>
-            <a href="#changelog" id="nav-changelog">Changelog</a>
+            <a href="#profile" id="nav-profile">Discord Profile</a>
         </nav>
     </header>
 
     <main>
         <section id="home-page" class="page centered-page">
             <div class="welcome-box">
-                <h1 class="welcome-title">WELCOME TO THE VLL!</h1>
+                <h1 class="welcome-title">WELCOME TO THE FHLL!</h1>
                 <p class="welcome-text">
-                    The **Vaulted Lists Leaderboard (VLL)** is a community-maintained list ranking the former top extreme demons that have since been vaulted, based on their difficulty.
+                    The **Former Hardest Levels List (FHLL)** ranks the former hardest levels (including the current hardest) in Geometry Dash, **ranked according to their difficulty on the Impossible Levels List (ILL).**
                 </p>
                 <div class="home-buttons">
                     <button onclick="changePage('list')">View The List</button>
                     <button onclick="changePage('leaderboard')">View Leaderboard</button>
                 </div>
             </div>
-        </section>
 
-        <section id="list-page" class="page hidden">
-            <div class="list-container">
-                <div id="level-list-sidebar">
-                    </div>
-                <div id="level-details-container">
-                    <p style="text-align: center; color: #aaa; padding-top: 50px;">Select a level from the sidebar.</p>
+            <div class="changelog-container">
+                <h2>CHANGELOG</h2>
+                <div class="changelog-entry">
+                    <h3>09/27/2025</h3>
+                    <p>FHLL Website Launched with initial data.</p>
+                    <p>Verifier points system implemented.</p>
+                    <p>Submission form updated and GDDL Enjoyment renamed to FIDEL Enjoyment.</p>
+                    <p>Added all the former hardest levels.</p>
                 </div>
-                <div id="level-victors-list">
-                    </div>
             </div>
-        </section>
-        
-        <section id="submit-page" class="page hidden">
+
             <div class="submission-form-container">
                 <h2>RECORD SUBMISSION</h2>
                 <p style="color: #aaa; text-align: center; margin-bottom: 20px;">There are currently 0 submissions in the queue.</p>
@@ -87,12 +84,43 @@
                     
                     <input type="submit" value="Submit Record">
                 </form>
+                
+                <h3 style="margin-top: 30px; margin-bottom: 10px; color: var(--accent-color);">Previous Submissions</h3>
+                <p style="margin-bottom: 20px;">Submissions will appear here once the list is live!</p>
+
+                <h3 style="margin-bottom: 10px; color: var(--accent-color);">Submission Guidelines</h3>
+                <p style="margin-bottom: 15px;">Please review these guidelines carefully before submitting a record:</p>
+                <ul style="list-style-type: disc; margin-left: 20px;">
+                    <li>Your video must be uncut and have click/completing audio the whole way through. This ensures authenticity and helps staff verify your run.</li>
+                    <li>Your completion video must be uploaded to YouTube or another recognized video-based platform. Direct social media links (TikTok, Instagram) are not permitted.</li>
+                    <li>You must have a visible cheat indicator if your mod menu has one. This helps verify that no disallowed modifications were used.</li>
+                    <li>The LDM/Bugfix copy of the level has to, without a doubt, not make a significant difference in the level. Minor graphical changes are fine, but any change that simplifies gameplay is forbidden.</li>
+                    <li>Your record can be valid if it ends midway through the endscreen (ONLY if it's impossible to skip to the endscreen). If it's possible, please ensure that you record the record is acceptable.</li>
+                    <li>If your record is in the Top 15, you must submit raw footage, with split audio tracks, in a downloadable format (e.g., Google Drive/Dropbox). This is a mandatory measure for the hardest levels on the list.</li>
+                    <li>Your record cannot contain any disallowed mods or cheats: Click Between Frames (CBF) is allowed, but physics bypass is not.</li>
+                    <li>During your completion, you cannot use skips that make the level significantly easier. This includes major route deviations not intended by the creator.</li>
+                </ul>
             </div>
+            
+            <h3 style="margin-top: 20px; color: #aaa;">For any questions regarding a submission, please contact the staff via Discord.</h3>
         </section>
 
+
+        <section id="list-page" class="page hidden">
+            <div class="list-container">
+                <div id="level-list-sidebar">
+                    </div>
+                <div id="level-details-container">
+                    <p style="text-align: center; color: #aaa; padding-top: 50px;">Select a level from the sidebar.</p>
+                </div>
+                <div id="level-victors-list">
+                    </div>
+            </div>
+        </section>
+        
         <section id="leaderboard-page" class="page hidden">
             <div class="leaderboard-container">
-                <h2>VLL LEADERBOARD</h2>
+                <h2>FHLL LEADERBOARD</h2>
                 <table class="leaderboard-table">
                     <thead>
                         <tr>
@@ -106,25 +134,23 @@
                     <tbody id="leaderboard-body">
                         </tbody>
                 </table>
-                </div>
+            </div>
+        </section>
+        
+        <section id="submit-page" class="page hidden">
+            <h2 style="color: var(--accent-color); text-align: center;">Record Submission</h2>
+            <p style="text-align: center; color: #aaa;">The submission form is now on the <a href="#home">Home Page</a>.</p>
         </section>
 
-        <section id="changelog-page" class="page centered-page hidden">
-            <div class="changelog-container">
-                <h2>CHANGELOG / CREATOR NOTES</h2>
-                <div class="changelog-entry">
-                    <h3>09/27/2025</h3>
-                    <p>VLL Website launched with initial data.</p>
-                    <p>Verifier points system implemented.</p>
-                    <p>Added the former vaulted levels.</p>
-                </div>
-            </div>
+        <section id="profile-page" class="page hidden">
+            <h2 style="color: var(--accent-color); text-align: center;">Discord Profile</h2>
+            <p style="text-align: center; color: #aaa;">This page is a placeholder for future Discord integration.</p>
         </section>
         
     </main>
 
     <script>
-        // --- PAGE ROUTING LOGIC (Must be in index.html or loaded before script.js) ---
+        // --- PAGE ROUTING LOGIC (Kept for the navigation bar) ---
         function hideAllPages() {
             document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
             document.querySelectorAll('nav a').forEach(link => link.classList.remove('highlight-text'));
@@ -134,36 +160,49 @@
             hideAllPages();
             
             let targetId = `${pageId}-page`;
+            // Handle the case where 'submit' is now 'home' for the form, but 'submit-page' is a placeholder.
+            if (pageId === 'submit') {
+                targetId = 'home-page'; // Direct to home page since the form is there
+            }
+
             const targetPage = document.getElementById(targetId);
             const navLink = document.getElementById(`nav-${pageId}`);
             
             if (targetPage) {
                 targetPage.classList.remove('hidden');
                 
-                if (navLink) {
+                // Highlight 'home' link if we're showing the home page via 'submit'
+                if (pageId === 'submit') {
+                     document.getElementById('nav-home') ? document.getElementById('nav-home').classList.add('highlight-text') : null;
+                } else if (navLink) {
                     navLink.classList.add('highlight-text');
                 }
                 
-                // Set hash for bookmarking/navigation
                 window.location.hash = pageId;
 
                 // --- Call render functions based on the page ---
                 if (pageId === 'list' && typeof renderLevelList === 'function') {
                     renderLevelList();
-                } else if (pageId === 'submit' && typeof setupSubmitPage === 'function') {
+                } else if ((pageId === 'home' || pageId === 'submit') && typeof setupSubmitPage === 'function') {
                     setupSubmitPage();
                 } else if (pageId === 'leaderboard' && typeof renderLeaderboard === 'function') {
                     renderLeaderboard();
                 }
             } else {
-                // Default to home if the target page is not found
                 document.getElementById('home-page').classList.remove('hidden');
+                document.getElementById('nav-home') ? document.getElementById('nav-home').classList.add('highlight-text') : null;
                 window.location.hash = 'home';
             }
         }
         
-        // Handle navigation when the hash changes
         window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1) || 'home';
+            changePage(hash);
+        });
+        
+        // Initial load check
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if the script.js has already run its DOMContentLoaded logic
             const hash = window.location.hash.substring(1) || 'home';
             changePage(hash);
         });
