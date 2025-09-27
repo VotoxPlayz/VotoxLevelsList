@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The VLL - Vaulted Levels List</title>
+    <title>The VLL - Votox Levels List</title>
     <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
@@ -14,7 +14,8 @@
             <a href="#list" id="nav-list">The List</a>
             <a href="#leaderboard" id="nav-leaderboard">Leaderboard</a>
             <a href="#submit" id="nav-submit">Submit Record</a>
-            <a href="#profile" id="nav-profile">Discord Profile</a>
+            <a href="#profile" id="nav-profile">Stats Viewer</a> 
+            <a href="#discord" id="nav-discord">Discord</a>
         </nav>
     </header>
 
@@ -23,7 +24,7 @@
             <div class="welcome-box">
                 <h1 class="welcome-title">WELCOME TO THE VLL!</h1>
                 <p class="welcome-text">
-                    The **Vaulted Levels List (VLL)** is a community-maintained list ranking the former top extreme demons that have since been vaulted, based on their difficulty.
+                    The Votox Levels List (VLL) is a community-maintained list ranking the former top extreme demons that have since been vaulted, based on their difficulty.
                 </p>
                 <div class="home-buttons">
                     <button onclick="changePage('list')">View The List</button>
@@ -52,7 +53,7 @@
                 <div id="level-details-container">
                     <p style="text-align: center; color: #aaa; padding-top: 50px;">Select a level from the sidebar.</p>
                 </div>
-                <div id="level-victors-list">
+                <div id="level-victors-list"> 
                     </div>
             </div>
         </section>
@@ -128,8 +129,7 @@
                             <th>Username</th>
                             <th>Total Points</th>
                             <th>Hardest Level</th>
-                            <th>100% Clears</th>
-                        </tr>
+                            <th>Levels Completed</th> </tr>
                     </thead>
                     <tbody id="leaderboard-body">
                         </tbody>
@@ -138,8 +138,25 @@
         </section>
         
         <section id="profile-page" class="page hidden">
-            <h2 style="color: var(--accent-color); text-align: center;">Discord Profile</h2>
-            <p style="text-align: center; color: #aaa;">This page is a placeholder for future Discord integration.</p>
+            <div class="stats-viewer-container">
+                <h2>VLL STATS VIEWER</h2>
+                <div class="search-bar">
+                    <input type="text" id="stats-username-input" placeholder="Enter Username to View Stats">
+                    <button onclick="renderPlayerStats()">Search</button>
+                </div>
+                
+                <div id="player-stats-output">
+                    <p style="text-align: center; color: #aaa; margin-top: 20px;">Search for a player to see their rank, points, and completions.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="discord-page" class="page hidden">
+            <h2 style="color: var(--accent-color); text-align: center;">VLL Discord Server</h2>
+            <p style="text-align: center; color: #aaa;">Link to the VLL Discord server goes here.</p>
+            <p style="text-align: center; margin-top: 20px;">
+                <a href="#" style="color: var(--accent-color); font-weight: bold; text-decoration: none;">[Discord Invite Link]</a>
+            </p>
         </section>
         
     </main>
@@ -154,7 +171,10 @@
         function changePage(pageId) {
             hideAllPages();
             
+            // Map 'profile' to 'stats-viewer' for clarity, though HTML ID is 'profile-page'
             let targetId = `${pageId}-page`;
+            if (pageId === 'profile') targetId = 'profile-page';
+            
             const targetPage = document.getElementById(targetId);
             const navLink = document.getElementById(`nav-${pageId}`);
             
@@ -174,9 +194,13 @@
                     setupSubmitPage();
                 } else if (pageId === 'leaderboard' && typeof renderLeaderboard === 'function') {
                     renderLeaderboard();
+                } else if (pageId === 'profile' && typeof renderPlayerStats === 'function') {
+                    // Initial setup of the stats page, but don't run search automatically
+                    document.getElementById('player-stats-output').innerHTML = '<p style="text-align: center; color: #aaa; margin-top: 20px;">Search for a player to see their rank, points, and completions.</p>';
                 }
             } else {
                 document.getElementById('home-page').classList.remove('hidden');
+                // Highlight home if no valid hash is found
                 document.getElementById('nav-home') ? document.getElementById('nav-home').classList.add('highlight-text') : null;
                 window.location.hash = 'home';
             }
