@@ -60,6 +60,13 @@ nav a:hover {
     color: var(--accent-color);
 }
 
+/* Added for Votox/Finh7 names in intro */
+.highlight-text {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+
 /* --- PAGE MANAGEMENT --- */
 .page {
     padding: 20px;
