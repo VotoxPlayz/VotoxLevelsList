@@ -60,7 +60,6 @@ nav a:hover {
     color: var(--accent-color);
 }
 
-/* Fixed: Applies both bold and color for **Votox** and **Finh7** */
 .highlight-text {
     color: var(--accent-color) !important; 
     font-weight: bold !important; 
@@ -110,10 +109,23 @@ nav a:hover {
     line-height: 1.6;
 }
 
-/* Ensured general strong/bold text is the same color as regular text */
-.welcome-text strong {
-    font-weight: bold; 
-    color: var(--text-color);
+/* HOMEPAGE BUTTONS: Revert to Purple Button / Black Text */
+.home-buttons button {
+    background-color: var(--accent-color);
+    color: var(--bg-color); /* Black text */
+    padding: 12px 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0 10px;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.home-buttons button:hover {
+    background-color: #7b58c7; /* Darker purple on hover */
+    transform: translateY(-1px);
 }
 
 /* --- CHANGELOG / CREATOR NOTES STYLING --- */
