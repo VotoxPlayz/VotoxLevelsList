@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VLL - Votox Levels List</title>
+    <link rel="stylesheet" href="style.css">
+    </head>
+<body>
+
+    <header>
+        <a href="#home" class="logo">VLL</a>
+        <nav>
+            <a href="#list" data-page="list">Votox Levels List</a>
+            <a href="#leaderboard" data-page="leaderboard">VLL Leaderboard</a>
+            <a href="#submit" data-page="submit">Submit Record</a>
+            <a href="https://discord.gg/YOUR_DISCORD_INVITE" target="_blank">Discord</a>
+            <a href="#profile" data-page="profile">Profile</a>
+        </nav>
+    </header>
+
+    <main id="content">
+        <section id="home-page" class="page active centered-page">
+            <div class="welcome-box">
+                <h1 class="welcome-title">WELCOME TO THE VOX LEVELS LIST!</h1>
+                <p class="welcome-text">
+                    The <strong>Votox Levels List (VLL)</strong> ranks the hardest levels created by **Votox**, based on their objective difficulty. Votox uses the in-game name 'Votox' for creating, but **'Finh7'** for publishing.
+                </p>
+                <div class="home-buttons">
+                    <button onclick="changePage('list')">View The List</button>
+                    <button onclick="changePage('leaderboard')">View Leaderboard</button>
+                </div>
+            </div>
+
+            <div id="changelog-container" class="changelog-container">
+                <h2>CREATOR NOTES</h2>
+                <p>Welcome to my official list. The ranking is based purely on difficulty, as decided by my team. The exponential point system is designed to reward those who conquer my hardest challenges!</p>
+                <div id="changelog-entries">
+                    <div class="changelog-entry">
+                        <p class="changelog-date">09/27/2025</p>
+                        <p class="changelog-item">Votox Levels List (VLL) Launched with new VLL Points system.</p>
+                        <p class="changelog-item">List Percentage (List%) and World Record (WR) tracking implemented.</p>
+                        <p class="changelog-item">Violet-Purple redesign applied.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="list-page" class="page hidden list-layout">
+            <div id="level-list-sidebar" class="sidebar"></div>
+            <div id="level-details-container" class="level-details"></div>
+            <div id="level-victors-list" class="sidebar victors-sidebar"></div>
+        </section>
+
+        <section id="leaderboard-page" class="page hidden">
+            <h1>VLL Leaderboard</h1>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>VLL Points</th>
+                        <th>Hardest Level</th>
+                        <th>Records</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                </tbody>
+            </table>
+            <div id="leaderboard-pagination" class="pagination-controls"></div>
+        </section>
+
+        <section id="submit-page" class="page hidden submit-layout">
+            <div class="submit-form-container">
+                <div class="submission-header">
+                    <h2>RECORD SUBMISSION</h2>
+                    <p class="submission-queue">Ensure your completion meets the VLL guidelines.</p>
+                </div>
+                
+                <form class="submission-form" 
+                    action="YOUR_NEW_GOOGLE_FORM_ACTION_LINK_HERE" 
+                    method="POST" 
+                    target="hidden_iframe"
+                    onsubmit="submitted=true;">
+                    
+                    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" 
+                        onload="if(submitted) {alert('Record submitted successfully and sent for review!'); submitted=false; document.querySelector('.submission-form').reset();}">
+                    </iframe>
+                    
+                    <div class="form-row">
+                        <label for="submit-level-select">Level: <span class="required-asterisk">*</span></label>
+                        <select id="submit-level-select" name="entry.1706240294" required>
+                            <option value="">Select a Level</option> 
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <label for="completion-link">Completion Link: <span class="required-asterisk">*</span></label>
+                        <input type="url" id="completion-link" name="entry.550186591" placeholder="Video link to your completion" required>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="player-name">Username: <span class="required-asterisk">*</span></label>
+                        <input type="text" id="player-name" name="entry.1118671343" placeholder="Your Username" required>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="percentage">Percentage (0-100): <span class="required-asterisk">*</span></label>
+                        <input type="number" id="percentage" name="entry.111623321" min="0" max="100" placeholder="e.g. 75 or 100" required>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="device">Device: <span class="required-asterisk">*</span></label>
+                        <select id="device" name="entry.1691349890" required>
+                            <option>PC</option>
+                            <option>Mobile</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="level-id">Level ID (Optional):</label>
+                        <input type="text" id="level-id" name="entry.440263640" placeholder="ID of the LDM/Bugfix if used">
+                    </div>
+
+                    <div class="form-row" id="raw-footage-row">
+                        <label for="raw-footage">Raw Footage (Optional):</label> 
+                        <input type="url" id="raw-footage" name="entry.122849927" placeholder="Link to your raw footage (Drive/Dropbox/etc.)">
+                    </div>
+                    
+                    <div class="form-row">
+                        <label for="menu">Mod Menu: <span class="required-asterisk">*</span></label>
+                        <select id="menu" name="entry.1607590212" required>
+                            <option>No Mod Menu</option>
+                            <option>Mega Hack</option>
+                            <option>QOLMod</option>
+                            <option>Eclipse</option>
+                            <option>iCreate</option>
+                            <option>Prism</option>
+                            <option>Other (Specify In Notes)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row full-width">
+                        <label for="additional-notes">Additional Notes (Optional):</label>
+                        <textarea id="additional-notes" name="entry.2069686001" placeholder="Any additional context for your run."></textarea>
+                    </div>
+
+                    <div class="placement-notice full-width">
+                        <p class="final-submission-note">By submitting this record, you acknowledge that it follows the <a href="#submit" onclick="scrollToTop()">submission guidelines.</a></p>
+                    </div>
+
+                    <button type="submit" class="submit-button full-width">Submit Record</button>
+                </form>
+
+                <div class="previous-submissions">
+                    <h3>Previous Submissions</h3>
+                    <p>Submissions will appear here once the list is live!</p>
+                </div>
+            </div>
+
+            <div class="submission-guidelines">
+                <h3>Submission Guidelines (VLL)</h3>
+                <p>Please review these guidelines carefully before submitting a record:</p>
+                <ul>
+                    <li><strong>Your video must be uncut and have clicks completely audible the whole way through.</strong></li>
+                    <li><strong>Your completion video must be uploaded to YouTube or another recognized video-based platform.</strong></li>
+                    <li>**If your run is 75% or higher, you are eligible for List Points. List Points are 10% of the level's total score.**</li>
+                    <li>**If your run is below 100%, it will only be tracked as a World Record run if it meets the Minimum Required WR set by the list team.**</li>
+                    <li><strong>The LDM/Bugfix copy of a level has to, without a doubt, not make a significant difference in the level.</strong></li>
+                    <li><strong>Your record can be valid if it ends midway through the endscreen, ONLY if it's impossible to die in the endscreen.</strong></li>
+                    <li><strong>If your record is in the Top 15, you must submit raw footage, with split audio tracks in a downloadable format (e.g., Google Drive/Dropbox).</strong></li>
+                    <li><strong>Your record cannot contain any disallowed mods or cheats</strong>; Click Between Frames (CBF) is allowed, but physics bypass is not.</li>
+                    <li><strong>During your completion, you cannot use skips that make the level significantly easier.</strong></li>
+                </ul>
+                <p class="staff-contact">For any questions regarding a submission, please contact the staff via Discord.</p>
+            </div>
+        </section>
+
+        <section id="profile-page" class="page hidden top-middle-centered-page">
+            <h1>Player Profile</h1>
+            <p>This section is reserved for future updates and will dynamically display a player's statistics, hardest completions, and list ranking.</p>
+        </section>
+    </main>
+
+    <script>
+        // Note: The changePage function is moved to script.js for better organization.
+        // It remains here to ensure the page routing works if the user keeps any of the original inline script logic.
+        var submitted = false;
+        
+        function changePage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('active');
+            });
+            const targetPage = document.getElementById(pageId + '-page');
+            if(targetPage) {
+                targetPage.classList.remove('hidden');
+                targetPage.classList.add('active');
+            }
+
+            // CRITICAL: Call page-specific setup functions (The logic is now duplicated here and in script.js for compatibility)
+            if (pageId === 'submit' && typeof setupSubmitPage === 'function') {
+                setupSubmitPage();
+            } else if (pageId === 'list' && typeof renderLevelList === 'function') {
+                renderLevelList();
+            } else if (pageId === 'leaderboard' && typeof renderLeaderboard === 'function') {
+                renderLeaderboard(1);
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo(0, 0);
+        }
+
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1) || 'home';
+            changePage(hash);
+            scrollToTop();
+        });
+
+        // The DOMContentLoaded listener in script.js now handles the initial page load.
+    </script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
