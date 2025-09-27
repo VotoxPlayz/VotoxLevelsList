@@ -192,8 +192,13 @@ function renderLevelList() {
     detailsContainer.innerHTML = '';
     recordsSidebar.innerHTML = '';
     
+    // Re-check processed levels just in case this is called dynamically
     if (processedLevels.length === 0) {
-        sidebar.innerHTML += '<p style="padding: 10px;">Levels failed to load. Check data.js.</p>';
+        processLevelData(); // Attempt to process data again
+    }
+    
+    if (processedLevels.length === 0) {
+        sidebar.innerHTML += '<p style="padding: 10px;">Levels failed to load. Check console for data errors.</p>';
         return;
     }
 
@@ -373,7 +378,7 @@ function calculateLeaderboardData() {
     // Sort: 1. Points (desc), 2. Levels Beaten (desc), 3. Hardest Rank (asc)
     leaderboard.sort((a, b) => {
         if (b.points !== a.points) return b.points - a.points; 
-        if (b.levelsBeaten !== a.levelsBeaten) return b.levelsBeaten - a.levelsBeaten; 
+        if (b.levelsBeaten !== a.levelsBeaten) return b.levelsBeaten - b.levelsBeaten; 
         return a.hardestRank - b.hardestRank; 
     });
 
