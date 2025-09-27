@@ -3,8 +3,8 @@
 :root {
     --bg-color: #1a1a1a;
     --text-color: #f0f0f0;
-    --accent-color: #9370DB; /* Medium Purple - Violety Accent */
-    --submit-button-color: #9370DB; 
+    --accent-color: #00CC33; /* Bright Green - MATCHING YOUR SCREENSHOTS */
+    --submit-button-color: #00CC33; 
     --main-panel-bg: #2b2b2b;
     --sidebar-bg: #222222;
     --border-color: #383838;
@@ -92,7 +92,7 @@ nav a:hover {
     padding: 40px;
     border: 3px solid var(--accent-color);
     background-color: var(--main-panel-bg);
-    box-shadow: 0 0 15px rgba(147, 112, 219, 0.3); /* Purple glow */
+    box-shadow: 0 0 15px rgba(0, 204, 51, 0.3); /* Green glow */
     border-radius: 8px;
     max-width: 800px;
     margin-bottom: 40px;
@@ -109,7 +109,7 @@ nav a:hover {
     line-height: 1.6;
 }
 
-/* HOMEPAGE BUTTONS: Revert to Purple Button / Black Text */
+/* HOMEPAGE BUTTONS: Match Green Button / Black Text */
 .home-buttons button {
     background-color: var(--accent-color);
     color: var(--bg-color); /* Black text */
@@ -124,7 +124,7 @@ nav a:hover {
 }
 
 .home-buttons button:hover {
-    background-color: #7b58c7; /* Darker purple on hover */
+    background-color: #00b347; /* Darker green on hover */
     transform: translateY(-1px);
 }
 
@@ -137,6 +137,7 @@ nav a:hover {
     border-radius: 8px;
     border: 1px solid var(--border-color);
     text-align: left;
+    margin-bottom: 40px; /* Space before submission form */
 }
 
 .changelog-container h2 {
@@ -163,7 +164,7 @@ nav a:hover {
 }
 
 /* ------------------------------------------- */
-/* --- CRITICAL FIX: LIST PAGE LAYOUT/STYLE --- */
+/* --- LIST PAGE LAYOUT/STYLE --- */
 /* ------------------------------------------- */
 
 .list-container {
@@ -185,10 +186,10 @@ nav a:hover {
 
 /* --- LEVEL LIST ITEMS (Sidebar) --- */
 #level-list-sidebar h3 {
-    color: var(--text-color);
+    color: var(--accent-color); /* Changed to accent color for title */
     margin-bottom: 10px;
     padding: 5px 0;
-    text-align: center;
+    text-align: left; /* Aligned left to match screenshot */
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -198,7 +199,7 @@ nav a:hover {
     cursor: pointer;
     background-color: transparent; /* Default */
     border-radius: 4px;
-    transition: background-color 0.2s, box-shadow 0.2s;
+    transition: background-color 0.2s, box-shadow 0.2s, border 0.2s;
     line-height: 1.3;
 }
 
@@ -207,16 +208,18 @@ nav a:hover {
     background-color: #333;
 }
 
+/* FIX 1: Add border to the active level */
 .level-list-item.active {
     background-color: var(--accent-color); /* Highlight active level */
     color: var(--bg-color); /* Dark text for contrast */
-    box-shadow: 0 0 8px rgba(147, 112, 219, 0.6);
+    box-shadow: 0 0 8px rgba(0, 204, 51, 0.6);
+    border: 1px solid #00E64D; /* Slight border/outline for definition */
 }
 
 /* Styling for the text inside the list item */
 .level-rank {
     font-weight: bold;
-    color: var(--accent-color); /* Rank in your violet color */
+    color: var(--accent-color); /* Rank in your green color */
     margin-right: 5px;
 }
 
@@ -230,7 +233,7 @@ nav a:hover {
 .level-creator {
     font-size: 0.8em;
     color: #aaa; /* Lighter color for creator */
-    margin-left: 25px; /* Indent slightly */
+    margin-left: 0; /* Align left */
 }
 
 /* Ensure text is visible in the active state */
@@ -304,7 +307,7 @@ nav a:hover {
     color: var(--text-color);
     margin-bottom: 10px;
     padding-bottom: 10px;
-    text-align: center;
+    text-align: left; /* Aligned left to match screenshot */
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -328,6 +331,8 @@ nav a:hover {
 
 .victor-name {
     font-weight: 500;
+    display: flex;
+    flex-direction: column; /* Stacks name and tags vertically */
 }
 
 .right-text {
@@ -335,14 +340,20 @@ nav a:hover {
     font-weight: bold;
 }
 
-/* Tags Styling */
+/* FIX 2: Tags Styling (Placed below player name) */
+.victor-tag-container {
+    display: flex; /* Allows multiple tags to sit next to each other */
+    margin-top: 4px;
+    gap: 5px;
+}
+
 .victor-tag {
     font-size: 0.7em;
     padding: 3px 6px;
     border-radius: 3px;
-    margin-left: 8px;
     font-weight: bold;
     text-transform: uppercase;
+    display: inline-block;
 }
 
 .tag-verifier {
@@ -378,15 +389,16 @@ nav a:hover {
 }
 
 
-/* --- SUBMIT PAGE STYLING --- */
+/* --- SUBMISSION FORM STYLING (Used on Home Page) --- */
 
 .submission-form-container {
-    max-width: 600px;
+    max-width: 800px; /* Wider to match the welcome box/changelog */
     margin: 40px auto;
     padding: 30px;
-    background-color: var(--main-panel-bg);
+    background-color: var(--sidebar-bg);
     border-radius: 8px;
     border: 1px solid var(--border-color);
+    text-align: left;
 }
 
 .submission-form-container h2 {
@@ -410,13 +422,13 @@ nav a:hover {
     margin-bottom: 15px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    background-color: var(--sidebar-bg);
+    background-color: var(--main-panel-bg);
     color: var(--text-color);
 }
 
 .submission-form-container input[type="submit"] {
     background-color: var(--submit-button-color);
-    color: white;
+    color: var(--bg-color); /* Dark text for contrast */
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
@@ -428,7 +440,7 @@ nav a:hover {
 }
 
 .submission-form-container input[type="submit"]:hover {
-    background-color: #7b58c7;
+    background-color: #00b347;
 }
 
 .required-asterisk {
@@ -439,10 +451,21 @@ nav a:hover {
 
 /* --- LEADERBOARD STYLING --- */
 
+.leaderboard-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.leaderboard-container h2 {
+    color: var(--accent-color);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 .leaderboard-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
     background-color: var(--sidebar-bg);
     border-radius: 8px;
     overflow: hidden;
@@ -474,9 +497,9 @@ nav a:hover {
 }
 
 /* Rank highlight for top 3 */
-.leaderboard-table tr:nth-child(1) { background-color: #FFD70033; } /* Gold tint */
-.leaderboard-table tr:nth-child(2) { background-color: #C0C0C033; } /* Silver tint */
-.leaderboard-table tr:nth-child(3) { background-color: #CD7F3233; } /* Bronze tint */
+.leaderboard-table tr:nth-child(1) { background-color: rgba(255, 215, 0, 0.2); } /* Gold tint */
+.leaderboard-table tr:nth-child(2) { background-color: rgba(192, 192, 192, 0.2); } /* Silver tint */
+.leaderboard-table tr:nth-child(3) { background-color: rgba(205, 127, 50, 0.2); } /* Bronze tint */
 
 /* Centering columns */
 .leaderboard-table tr td:nth-child(1),
