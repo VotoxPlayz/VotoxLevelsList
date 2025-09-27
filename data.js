@@ -7,7 +7,7 @@
 const LEVEL_DATA = [
     {
         name: "Flamewall",
-        creator: "Votox", // Creator: Votox
+        creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7", // Publisher: Finh7
         verifier: "Cuatrocientos",
         id: "126242564",
@@ -15,11 +15,11 @@ const LEVEL_DATA = [
         description: "The ultimate endurance test, in the works since 2022. | Verified by Cuatrocientos in 221.703 attempts.",
         listPercent: 75, // The List% threshold for this level (e.g., 75, 80, 90)
         minWR: 5, // Minimum World Record percentage required for tracking
-        currentWR: null // To be updated manually with the highest run < 100%
+        currentWR: null 
     },
     {
         name: "Thinking Space II",
-        creator: "Votox",
+        creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7",
         verifier: "Zoink",
         id: "119544028",
@@ -31,7 +31,7 @@ const LEVEL_DATA = [
     },
     {
         name: "Tidal Wave buffed",
-        creator: "Votox",
+        creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7",
         verifier: "wPopoff",
         id: "116732736",
@@ -43,7 +43,7 @@ const LEVEL_DATA = [
     },
     {
         name: "Tidal Wave",
-        creator: "Votox",
+        creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7",
         verifier: "Zoink",
         id: "86407629",
@@ -55,7 +55,7 @@ const LEVEL_DATA = [
     },
     {
         name: "Silent clubstep",
-        creator: "Votox",
+        creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7",
         verifier: "Paqoe",
         id: "4125776",
@@ -67,7 +67,7 @@ const LEVEL_DATA = [
     },
     {
         name: "Avernus",
-        creator: "Votox",
+        creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7",
         verifier: "Zoink",
         id: "89496627",
