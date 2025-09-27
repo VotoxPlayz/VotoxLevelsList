@@ -2,7 +2,7 @@
 
 // Global variables
 let processedLevels = []; 
-let submitted = false; 
+let leaderboardData = []; // Store calculated leaderboard data globally for efficiency
 
 /**
  * Calculates the 100% VLL Points for a given rank using exponential decay.
@@ -18,13 +18,10 @@ function calculateExponentialPoints(rank, totalLevels) {
     const P_max = 500;
     const P_min = 1;
     
-    // Calculate decay constant 'k' such that P(N) ≈ 1
     const k = -Math.log(P_min / P_max) / (totalLevels - 1);
     
-    // Calculate points for the current rank R
     let points = P_max * Math.exp(-k * (rank - 1));
     
-    // Round to a clean two decimal places for point accuracy
     return parseFloat(points.toFixed(2));
 }
 
@@ -38,27 +35,53 @@ function calculateExponentialPoints(rank, totalLevels) {
 function calculateVLLPoints(P_100, percentage, listPercentThreshold) {
     if (percentage === 100) return P_100;
     
-    // Check if the run meets the List% threshold
     if (percentage < listPercentThreshold) return 0;
 
-    // P_List% = 10% of P_100
     const P_list = P_100 * 0.1;
 
-    // Total points available in the linear zone (from List% to 100%)
     const P_linear = P_100 - P_list;
     
-    // Percentage span for the linear zone
     const percentSpan = 100 - listPercentThreshold; 
     
-    // If percentSpan is 0 (i.e., List% is 100), then points are P_100 or 0
     if (percentSpan <= 0) return (percentage >= 100 ? P_100 : 0);
 
-    // Points per percentage point in the linear zone
     const pointsPerPercent = P_linear / percentSpan;
     
     const earnedLinearPoints = pointsPerPercent * (percentage - listPercentThreshold);
     
     return parseFloat((P_list + earnedLinearPoints).toFixed(2));
+}
+
+/**
+ * Maps the raw difficulty value (10-point scale or custom string) to the required in-game estimation.
+ * NOTE: The raw data needs a 'difficultyEst' field (1-10 or custom string) for this to work perfectly.
+ * @param {string|number} difficulty - The raw difficulty value.
+ * @returns {string} The in-game estimation string.
+ */
+function mapDifficulty(difficulty) {
+    if (typeof difficulty === 'string') {
+        const lower = difficulty.toLowerCase();
+        // Handle custom strings first
+        if (lower.includes('list demon')) return 'List Demon (Top 150)';
+        if (lower.includes('extreme demon')) return 'Extreme Demon';
+        if (lower.includes('insane demon')) return 'Insane Demon';
+        if (lower.includes('hard demon')) return 'Hard Demon';
+        if (lower.includes('medium demon')) return 'Medium Demon';
+        if (lower.includes('easy demon')) return 'Easy Demon';
+        // If it's a number string
+        difficulty = parseInt(difficulty, 10);
+    }
+    
+    if (typeof difficulty !== 'number') return 'N/A';
+    
+    if (difficulty >= 10) return 'Extreme Demon'; // Assuming 10+ is demon tier in a vacuum
+    if (difficulty === 9) return 'Insane';
+    if (difficulty === 8) return 'Harder';
+    if (difficulty === 7) return 'Hard';
+    if (difficulty === 6) return 'Normal';
+    if (difficulty <= 5) return 'Easy';
+
+    return 'N/A';
 }
 
 
@@ -80,7 +103,7 @@ function processLevelData() {
         // 1. Calculate 100% VLL Points
         const P_100 = calculateExponentialPoints(rank, totalLevels);
         
-        // 2. Merge Victors (now called Records) from VICTOR_COMPLETIONS
+        // 2. Merge Victors (Records) from VICTOR_COMPLETIONS
         const records = (typeof VICTOR_COMPLETIONS !== 'undefined' && Array.isArray(VICTOR_COMPLETIONS))
             ? VICTOR_COMPLETIONS.filter(record => record.levelName === level.name)
             : [];
@@ -96,12 +119,6 @@ function processLevelData() {
             .filter(r => r.percent < 100 && r.percent >= level.minWR)
             .sort((a, b) => b.percent - a.percent)[0];
         
-        // Find the highest list run (highest run >= listPercent and < 100%)
-        const listRunRecord = processedRecords
-            .filter(r => r.percent < 100 && r.percent >= level.listPercent)
-            .sort((a, b) => b.percent - a.percent)[0];
-
-        // Determine actual currentWR (100% if verified, otherwise highest submitted run)
         const isVerified = (level.verifier && processedRecords.find(r => r.name === level.verifier && r.percent === 100));
         let actualCurrentWR = null;
         if (isVerified) {
@@ -115,19 +132,22 @@ function processLevelData() {
         return {
             ...level,
             rank: rank,
-            P_100: P_100, // Store 100% points for display
+            P_100: P_100, 
             records: processedRecords,
             currentWR: actualCurrentWR, 
-            listRunWR: listRunRecord ? listRunRecord.percent : null, 
-            minWR: level.minWR || 0 
+            minWR: level.minWR || 0,
+            difficultyEst: mapDifficulty(level.difficultyEst || 'N/A') // Use the mapping function
         };
     });
     console.log(`Processed ${processedLevels.length} Levels.`); 
+    
+    // Also calculate leaderboard data upon initial processing
+    leaderboardData = calculateLeaderboardData();
 }
 
 
 // ----------------------------------------------------------------------
-// --- SUBMIT PAGE LOGIC (Called from index.html) ---
+// --- SUBMIT PAGE LOGIC ---
 // ----------------------------------------------------------------------
 
 function setupSubmitPage() {
@@ -136,13 +156,10 @@ function setupSubmitPage() {
     
     if (!levelSelect) return;
 
-    // 1. Clear existing options
-    // Start from 1 to preserve the default "Select a Level" option (index 0)
     for (let i = levelSelect.options.length - 1; i > 0; i--) {
         levelSelect.remove(i);
     }
 
-    // 2. Populate the dropdown
     processedLevels.forEach(level => {
         const option = document.createElement('option');
         option.value = level.name; 
@@ -151,15 +168,13 @@ function setupSubmitPage() {
         levelSelect.appendChild(option);
     });
     
-    // 3. Setup Raw Footage logic 
     if (rawFootageInput) {
         levelSelect.removeEventListener('change', handleLevelChange);
         levelSelect.addEventListener('change', handleLevelChange);
-        handleLevelChange(); // Initial run
+        handleLevelChange(); 
     }
 }
 
-// Handler function for level select change (Raw Footage Logic)
 function handleLevelChange() {
     const levelSelect = document.getElementById('submit-level-select');
     const rawFootageInput = document.getElementById('raw-footage'); 
@@ -170,7 +185,6 @@ function handleLevelChange() {
     const selectedOption = levelSelect.options[levelSelect.selectedIndex];
     const rank = selectedOption ? (parseInt(selectedOption.dataset.rank, 10) || 0) : 0;
     
-    // Logic: Raw footage is MANDATORY for Top 15 (rank 1 through 15)
     if (rank > 0 && rank <= 15) {
         rawFootageInput.setAttribute('required', 'true');
         rawFootageLabel.innerHTML = 'Raw Footage (Required for Top 15): <span class="required-asterisk">*</span>'; 
@@ -181,7 +195,7 @@ function handleLevelChange() {
 }
 
 // ----------------------------------------------------------------------
-// --- LIST PAGE LOGIC (Called from index.html) ---
+// --- LIST PAGE LOGIC ---
 // ----------------------------------------------------------------------
 
 function renderLevelList() {
@@ -189,12 +203,8 @@ function renderLevelList() {
     const detailsContainer = document.getElementById('level-details-container');
     const recordsSidebar = document.getElementById('level-victors-list');
 
-    if (!sidebar || !detailsContainer || !recordsSidebar) {
-         console.error("Missing critical element IDs for the list page.");
-         return;
-    }
-
-    // RESTORED: "VLL" name in sidebar
+    if (!sidebar || !detailsContainer || !recordsSidebar) return;
+    
     sidebar.innerHTML = '<h3>VLL Levels</h3>';
     detailsContainer.innerHTML = '';
     recordsSidebar.innerHTML = '';
@@ -204,7 +214,7 @@ function renderLevelList() {
     }
     
     if (processedLevels.length === 0) {
-        sidebar.innerHTML += '<p style="padding: 10px;">Levels failed to load. Check console for data errors and script order.</p>';
+        sidebar.innerHTML += '<p style="padding: 10px;">Levels failed to load.</p>';
         return;
     }
 
@@ -238,13 +248,16 @@ function renderLevelDetails(level) {
         ? level.video.replace("watch?v=", "embed/")
         : (level.video.includes("youtu.be/") ? level.video.replace("youtu.be/", "youtube.com/embed/") : level.video);
     
-    // Calculate List Points for the List% threshold (still needed for record processing, but not displayed)
     const P_list = (level.P_100 * 0.1).toFixed(2);
     
     const verifierName = level.verifier === level.creator ? level.verifier : (level.verifier || "N/A");
 
-    // VLL Points Display string (Only showing 100% points now)
-    const pointsDisplay = `<span class="list-points-display">${level.P_100.toFixed(2)} (100%) points</span>`;
+    // UPDATED: VLL Points Display string
+    const pointsDisplay = `
+        <span class="list-points-display">${P_list} (List%)</span>
+        — 
+        <span class="list-points-display">${level.P_100.toFixed(2)} (100%) points</span>
+    `;
     
     container.innerHTML = `
         <h3 class="level-title">#${level.rank} - ${level.name} <span class="level-verifier">// Verified by ${verifierName}</span></h3>
@@ -266,17 +279,17 @@ function renderLevelDetails(level) {
         <div class="level-info-row">
             <p><strong>Level ID:</strong> ${level.id}</p>
             <p><strong>VLL Points:</strong> ${pointsDisplay}</p>
-            <p><strong>WR:</strong> ${level.currentWR !== null ? level.currentWR + '%' : 'N/A'} (Min: ${level.minWR}%)</p>
-            </div>
+            <p><strong>In Game Difficulty Estimation:</strong> ${level.difficultyEst}</p> <p><strong>WR (Minimum Required WR):</strong> ${level.currentWR !== null ? level.currentWR + '%' : 'N/A'} (Min: ${level.minWR}%)</p> <p><strong>EDEL Enjoyment:</strong> ${level.EDEL_enjoyment || 'N/A'}</p>
+        </div>
     `;
 
     // Render Records List
-    recordsSidebar.innerHTML = `<h3>Victors (${level.records.length})</h3>`;
+    recordsSidebar.innerHTML = `<h3>Records (${level.records.length})</h3>`; // RENAMED TO RECORDS
     if (level.records && level.records.length > 0) {
         recordsSidebar.innerHTML += `
             <div class="victor-header">
                 <span>Name & Tag</span>
-                <span class="right-text">Points / %</span>
+                <span class="right-text">Percentage / Link</span>
             </div>
         `;
         // Sort: 1. Points (desc), 2. Percentage (desc), 3. Date (asc)
@@ -302,9 +315,8 @@ function renderLevelDetails(level) {
                 return `<span class="victor-tag ${tagClass}">${tag}</span>`;
             }).join('');
 
-            const pointsDisplay = record.points > 0 
-                ? `${record.points.toFixed(2)} pts` 
-                : `<span style="color: #aaa;">${record.percent}%</span>`; 
+            // UPDATED: Display percentage only for records
+            const percentDisplay = `${record.percent}%`;
 
             recordsSidebar.innerHTML += `
                 <div class="victor-item">
@@ -313,7 +325,7 @@ function renderLevelDetails(level) {
                         <div class="victor-tag-container">${tagHtml}</div>
                     </span>
                     <span class="right-text">
-                        ${pointsDisplay}
+                        ${percentDisplay}
                         <a href="${record.video}" target="_blank" class="victor-video-link">🔗</a>
                     </span>
                 </div>
@@ -325,11 +337,16 @@ function renderLevelDetails(level) {
 }
 
 // ----------------------------------------------------------------------
-// --- LEADERBOARD LOGIC (Called from index.html) ---
+// --- LEADERBOARD LOGIC ---
 // ----------------------------------------------------------------------
 
 function calculateLeaderboardData() {
     const playerStats = {};
+
+    // Ensure data is processed
+    if (processedLevels.length === 0) {
+        processLevelData();
+    }
 
     processedLevels.forEach(level => {
         level.records.forEach(record => {
@@ -372,7 +389,6 @@ function calculateLeaderboardData() {
         hardestRank: playerStats[username].hardestRank
     }));
 
-    // Sort: 1. Points (desc), 2. Levels Beaten (desc), 3. Hardest Rank (asc)
     leaderboard.sort((a, b) => {
         if (b.points !== a.points) return b.points - a.points; 
         if (b.levelsBeaten !== a.levelsBeaten) return b.levelsBeaten - a.levelsBeaten;
@@ -389,7 +405,6 @@ function calculateLeaderboardData() {
 
 function renderLeaderboard(page = 1) {
     const leaderboardBody = document.getElementById('leaderboard-body');
-    const leaderboardData = calculateLeaderboardData();
     
     if (!leaderboardBody) return;
     
@@ -408,10 +423,105 @@ function renderLeaderboard(page = 1) {
         const row = leaderboardBody.insertRow();
         row.insertCell().textContent = player.rank;
         row.insertCell().textContent = player.username;
-        row.insertCell().textContent = player.points.toFixed(2); // Display VLL Points with decimals
+        row.insertCell().textContent = player.points.toFixed(2); 
         row.insertCell().textContent = player.hardestLevel;
-        row.insertCell().textContent = player.levelsBeaten;
+        row.insertCell().textContent = player.levelsBeaten; // Levels Completed
     });
+}
+
+// ----------------------------------------------------------------------
+// --- STATS VIEWER LOGIC (NEW) ---
+// ----------------------------------------------------------------------
+
+function renderPlayerStats() {
+    const inputElement = document.getElementById('stats-username-input');
+    const outputElement = document.getElementById('player-stats-output');
+    
+    if (!inputElement || !outputElement) return;
+    
+    const username = inputElement.value.trim();
+    if (username === '') {
+        outputElement.innerHTML = `<p style="text-align: center; color: var(--error-color); margin-top: 20px;">Please enter a username to search.</p>`;
+        return;
+    }
+
+    const player = leaderboardData.find(p => p.username.toLowerCase() === username.toLowerCase());
+
+    if (!player) {
+        outputElement.innerHTML = `<p style="text-align: center; color: #aaa; margin-top: 20px;">User **${username}** was not found in the VLL database.</p>`;
+        return;
+    }
+    
+    // Get all 100% completions for the player
+    const completedLevels = processedLevels
+        .filter(level => player.levelScores[level.name] === level.P_100)
+        .sort((a, b) => a.rank - b.rank); // Sort by rank (hardest first)
+
+    // Find the player's best run on each level
+    const bestRuns = processedLevels
+        .map(level => {
+            const highestRun = level.records
+                .filter(r => r.name.toLowerCase() === username.toLowerCase())
+                .sort((a, b) => b.percent - a.percent)[0];
+            
+            return highestRun ? {
+                rank: level.rank,
+                name: level.name,
+                percent: highestRun.percent,
+                points: highestRun.points.toFixed(2),
+                isCompleted: highestRun.percent === 100
+            } : null;
+        })
+        .filter(run => run !== null)
+        .sort((a, b) => a.rank - b.rank);
+
+    outputElement.innerHTML = `
+        <div class="player-header">
+            <div class="player-avatar">
+                ${player.username.charAt(0).toUpperCase()}
+            </div>
+            <div class="player-info">
+                <h3>${player.username}</h3>
+                <p>Global Rank: #${player.rank}</p>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="value">${player.levelsBeaten}</div>
+                <div class="label">Levels Completed</div>
+            </div>
+            <div class="stat-box">
+                <div class="value">${player.points.toFixed(2)}</div>
+                <div class="label">Total VLL Points</div>
+            </div>
+            <div class="stat-box">
+                <div class="value">#${player.hardestRank}</div>
+                <div class="label">Hardest Completion</div>
+            </div>
+        </div>
+        
+        <div class="rankings-section">
+            <h4>Highest Runs (${bestRuns.length})</h4>
+            <div class="rankings-grid" id="player-runs-grid">
+                </div>
+        </div>
+    `;
+
+    const runsGrid = document.getElementById('player-runs-grid');
+    if (runsGrid) {
+        bestRuns.forEach(run => {
+            runsGrid.innerHTML += `
+                <div class="rank-item" style="border-left: 3px solid ${run.isCompleted ? '#9370DB' : '#555'};">
+                    <span class="rank-label">#${run.rank} ${run.name}</span>
+                    <span class="rank-value">${run.percent}% ${run.isCompleted ? '(100%)' : ''}</span>
+                </div>
+            `;
+        });
+        if (bestRuns.length === 0) {
+             runsGrid.innerHTML = '<p style="color: #aaa; text-align: center; grid-column: 1 / -1; padding: 10px;">No runs found for this player.</p>';
+        }
+    }
 }
 
 
