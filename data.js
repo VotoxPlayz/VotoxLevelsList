@@ -92,6 +92,8 @@ const VICTOR_COMPLETIONS = [
     { levelName: "Tidal Wave", name: "Zoink", video: "https://www.youtube.com/watch?v=9fsZ014qB3s", date: "2024-02-18", percent: 100, tag: "Verifier" },
     { levelName: "Tidal Wave", name: "Player B", video: "https://example.com/b", date: "2024-03-01", percent: 100, tag: "First Victor" },
     { levelName: "Tidal Wave", name: "Player C", video: "https://example.com/c", date: "2024-03-10", percent: 100, tag: "Second Victor" },
+    { levelName: "Tidal Wave", name: "Player D", video: "https://example.com/d", date: "2024-03-15", percent: 100, tag: "Third Victor" },
+    { levelName: "Tidal Wave", name: "Player E", video: "https://example.com/e", date: "2024-03-20", percent: 100, tag: "Victor" }, // Fourth Victor and beyond use 'Victor'
     
     // Example WR (Thinking Space II)
     { levelName: "Thinking Space II", name: "Zoink", video: "https://www.youtube.com/watch?v=CELNmHwln_c", date: "2025-09-19", percent: 100, tag: "Verifier" },
