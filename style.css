@@ -60,10 +60,10 @@ nav a:hover {
     color: var(--accent-color);
 }
 
-/* Added for Votox/Finh7 names in intro */
+/* Fixed: Applies both bold and color for **Votox** and **Finh7** */
 .highlight-text {
-    color: var(--accent-color);
-    font-weight: bold;
+    color: var(--accent-color) !important; 
+    font-weight: bold !important; 
 }
 
 
@@ -109,27 +109,11 @@ nav a:hover {
     margin-bottom: 30px;
     line-height: 1.6;
 }
+
+/* Ensured general strong/bold text is the same color as regular text */
 .welcome-text strong {
-    color: var(--accent-color); 
     font-weight: bold; 
-}
-
-.home-buttons button {
-    padding: 12px 25px;
-    margin: 0 10px;
-    background-color: var(--accent-color);
-    color: var(--bg-color);
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1.1em;
-    transition: opacity 0.2s, transform 0.1s;
-    border-radius: 3px;
-}
-
-.home-buttons button:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
+    color: var(--text-color);
 }
 
 /* --- CHANGELOG / CREATOR NOTES STYLING --- */
