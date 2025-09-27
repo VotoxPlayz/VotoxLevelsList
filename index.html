@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VLL - Votox Levels List</title>
     <link rel="stylesheet" href="style.css">
-    </head>
+</head>
 <body>
 
     <header>
@@ -24,7 +24,7 @@
             <div class="welcome-box">
                 <h1 class="welcome-title">WELCOME TO THE VOX LEVELS LIST!</h1>
                 <p class="welcome-text">
-                    The <strong>Votox Levels List (VLL)</strong> ranks the hardest levels created by **Votox**, based on their objective difficulty. Votox uses the in-game name 'Votox' for creating, but **'Finh7'** for publishing.
+                    I am **Votox**, and this is the official **Votox Levels List (VLL)**! This list ranks the hardest levels **I** have created, based on their objective difficulty. While I use the in-game name **<span class="highlight-text">Votox</span>** for creation, all levels are published under my second username, **<span class="highlight-text">Finh7</span>**.
                 </p>
                 <div class="home-buttons">
                     <button onclick="changePage('list')">View The List</button>
@@ -33,8 +33,7 @@
             </div>
 
             <div id="changelog-container" class="changelog-container">
-                <h2>CREATOR NOTES</h2>
-                <p>Welcome to my official list. The ranking is based purely on difficulty, as decided by my team. The exponential point system is designed to reward those who conquer my hardest challenges!</p>
+                <h2>CHANGELOG</h2>
                 <div id="changelog-entries">
                     <div class="changelog-entry">
                         <p class="changelog-date">09/27/2025</p>
@@ -164,8 +163,8 @@
                 <ul>
                     <li><strong>Your video must be uncut and have clicks completely audible the whole way through.</strong></li>
                     <li><strong>Your completion video must be uploaded to YouTube or another recognized video-based platform.</strong></li>
-                    <li>**If your run is 75% or higher, you are eligible for List Points. List Points are 10% of the level's total score.**</li>
-                    <li>**If your run is below 100%, it will only be tracked as a World Record run if it meets the Minimum Required WR set by the list team.**</li>
+                    <li>**If your run is at or above the level's designated List Percentage (List%), you are eligible for VLL Points.**</li>
+                    <li>**If your run is below 100%, and meets the Minimum Required WR, it can be tracked as a World Record run, but will only award VLL points if it also meets the List% threshold.**</li>
                     <li><strong>The LDM/Bugfix copy of a level has to, without a doubt, not make a significant difference in the level.</strong></li>
                     <li><strong>Your record can be valid if it ends midway through the endscreen, ONLY if it's impossible to die in the endscreen.</strong></li>
                     <li><strong>If your record is in the Top 15, you must submit raw footage, with split audio tracks in a downloadable format (e.g., Google Drive/Dropbox).</strong></li>
@@ -183,8 +182,6 @@
     </main>
 
     <script>
-        // Note: The changePage function is moved to script.js for better organization.
-        // It remains here to ensure the page routing works if the user keeps any of the original inline script logic.
         var submitted = false;
         
         function changePage(pageId) {
@@ -198,7 +195,7 @@
                 targetPage.classList.add('active');
             }
 
-            // CRITICAL: Call page-specific setup functions (The logic is now duplicated here and in script.js for compatibility)
+            // Call page-specific setup functions
             if (pageId === 'submit' && typeof setupSubmitPage === 'function') {
                 setupSubmitPage();
             } else if (pageId === 'list' && typeof renderLevelList === 'function') {
