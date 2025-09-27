@@ -3,8 +3,8 @@
 :root {
     --bg-color: #1a1a1a;
     --text-color: #f0f0f0;
-    --accent-color: #00CC33; /* Bright Green - MATCHING YOUR SCREENSHOTS */
-    --submit-button-color: #00CC33; 
+    --accent-color: #9370DB; /* Medium Purple - VIOLETY ACCENT RESTORED */
+    --submit-button-color: #9370DB; 
     --main-panel-bg: #2b2b2b;
     --sidebar-bg: #222222;
     --border-color: #383838;
@@ -92,7 +92,7 @@ nav a:hover {
     padding: 40px;
     border: 3px solid var(--accent-color);
     background-color: var(--main-panel-bg);
-    box-shadow: 0 0 15px rgba(0, 204, 51, 0.3); /* Green glow */
+    box-shadow: 0 0 15px rgba(147, 112, 219, 0.3); /* Purple glow */
     border-radius: 8px;
     max-width: 800px;
     margin-bottom: 40px;
@@ -109,10 +109,10 @@ nav a:hover {
     line-height: 1.6;
 }
 
-/* HOMEPAGE BUTTONS: Match Green Button / Black Text */
+/* HOMEPAGE BUTTONS: Revert to Purple Button / Black Text */
 .home-buttons button {
     background-color: var(--accent-color);
-    color: var(--bg-color); /* Black text */
+    color: var(--bg-color); /* Dark text */
     padding: 12px 25px;
     border: none;
     border-radius: 4px;
@@ -124,7 +124,7 @@ nav a:hover {
 }
 
 .home-buttons button:hover {
-    background-color: #00b347; /* Darker green on hover */
+    background-color: #7b58c7; /* Darker purple on hover */
     transform: translateY(-1px);
 }
 
@@ -137,7 +137,7 @@ nav a:hover {
     border-radius: 8px;
     border: 1px solid var(--border-color);
     text-align: left;
-    margin-bottom: 40px; /* Space before submission form */
+    margin-bottom: 40px; 
 }
 
 .changelog-container h2 {
@@ -168,7 +168,6 @@ nav a:hover {
 /* ------------------------------------------- */
 
 .list-container {
-    /* Defines the three-column layout: Left (1 part), Middle (2 parts), Right (1 part) */
     display: grid;
     grid-template-columns: 1fr 2fr 1fr; 
     gap: 15px;
@@ -177,19 +176,19 @@ nav a:hover {
 
 /* Base style for the three main panel columns */
 #level-list-sidebar, #level-details-container, #level-victors-list {
-    background-color: var(--sidebar-bg); /* Dark gray background */
+    background-color: var(--sidebar-bg); 
     border-radius: 8px;
     padding: 15px;
-    min-height: 80vh; /* Ensures columns take up vertical space */
-    overflow-y: auto; /* Allows scrolling on the sidebar/records list if needed */
+    min-height: 80vh; 
+    overflow-y: auto; 
 }
 
 /* --- LEVEL LIST ITEMS (Sidebar) --- */
 #level-list-sidebar h3 {
-    color: var(--accent-color); /* Changed to accent color for title */
+    color: var(--accent-color); 
     margin-bottom: 10px;
     padding: 5px 0;
-    text-align: left; /* Aligned left to match screenshot */
+    text-align: left; 
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -197,7 +196,7 @@ nav a:hover {
     padding: 10px 15px;
     margin-bottom: 5px;
     cursor: pointer;
-    background-color: transparent; /* Default */
+    background-color: transparent; 
     border-radius: 4px;
     transition: background-color 0.2s, box-shadow 0.2s, border 0.2s;
     line-height: 1.3;
@@ -208,18 +207,18 @@ nav a:hover {
     background-color: #333;
 }
 
-/* FIX 1: Add border to the active level */
+/* FIX: Add border to the active level */
 .level-list-item.active {
-    background-color: var(--accent-color); /* Highlight active level */
-    color: var(--bg-color); /* Dark text for contrast */
-    box-shadow: 0 0 8px rgba(0, 204, 51, 0.6);
-    border: 1px solid #00E64D; /* Slight border/outline for definition */
+    background-color: var(--accent-color); 
+    color: var(--bg-color); 
+    box-shadow: 0 0 8px rgba(147, 112, 219, 0.6);
+    border: 1px solid #c8a2c8; /* Lightened border */
 }
 
 /* Styling for the text inside the list item */
 .level-rank {
     font-weight: bold;
-    color: var(--accent-color); /* Rank in your green color */
+    color: var(--accent-color); 
     margin-right: 5px;
 }
 
@@ -232,8 +231,8 @@ nav a:hover {
 
 .level-creator {
     font-size: 0.8em;
-    color: #aaa; /* Lighter color for creator */
-    margin-left: 0; /* Align left */
+    color: #aaa; 
+    margin-left: 0; 
 }
 
 /* Ensure text is visible in the active state */
@@ -275,10 +274,9 @@ nav a:hover {
     margin-bottom: 20px;
     border-radius: 6px;
     overflow: hidden;
-    /* Ratio-box to maintain 16:9 aspect ratio for the video */
     position: relative;
     width: 100%;
-    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    padding-top: 56.25%; 
 }
 .video-placeholder iframe {
     position: absolute;
@@ -304,10 +302,10 @@ nav a:hover {
 
 /* --- RECORDS LIST (Right Column) --- */
 #level-victors-list h3 {
-    color: var(--text-color);
+    color: var(--accent-color); /* Using accent color for records title */
     margin-bottom: 10px;
     padding-bottom: 10px;
-    text-align: left; /* Aligned left to match screenshot */
+    text-align: left; 
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -332,7 +330,7 @@ nav a:hover {
 .victor-name {
     font-weight: 500;
     display: flex;
-    flex-direction: column; /* Stacks name and tags vertically */
+    flex-direction: column; 
 }
 
 .right-text {
@@ -340,9 +338,9 @@ nav a:hover {
     font-weight: bold;
 }
 
-/* FIX 2: Tags Styling (Placed below player name) */
+/* Tags Styling (Kept to display below player name) */
 .victor-tag-container {
-    display: flex; /* Allows multiple tags to sit next to each other */
+    display: flex; 
     margin-top: 4px;
     gap: 5px;
 }
@@ -357,19 +355,19 @@ nav a:hover {
 }
 
 .tag-verifier {
-    background-color: #2E8B57; /* Sea Green */
+    background-color: #2E8B57; 
     color: var(--text-color);
 }
 .tag-gold {
-    background-color: #FFD700; /* Gold */
+    background-color: #FFD700; 
     color: var(--bg-color);
 }
 .tag-silver {
-    background-color: #C0C0C0; /* Silver */
+    background-color: #C0C0C0; 
     color: var(--bg-color);
 }
 .tag-bronze {
-    background-color: #CD7F32; /* Bronze */
+    background-color: #CD7F32; 
     color: var(--text-color);
 }
 .tag-diamond {
@@ -389,10 +387,10 @@ nav a:hover {
 }
 
 
-/* --- SUBMISSION FORM STYLING (Used on Home Page) --- */
+/* --- SUBMISSION FORM STYLING (Used on Submit Page) --- */
 
 .submission-form-container {
-    max-width: 800px; /* Wider to match the welcome box/changelog */
+    max-width: 800px; 
     margin: 40px auto;
     padding: 30px;
     background-color: var(--sidebar-bg);
@@ -428,7 +426,7 @@ nav a:hover {
 
 .submission-form-container input[type="submit"] {
     background-color: var(--submit-button-color);
-    color: var(--bg-color); /* Dark text for contrast */
+    color: var(--bg-color); 
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
@@ -440,7 +438,7 @@ nav a:hover {
 }
 
 .submission-form-container input[type="submit"]:hover {
-    background-color: #00b347;
+    background-color: #7b58c7;
 }
 
 .required-asterisk {
@@ -497,9 +495,9 @@ nav a:hover {
 }
 
 /* Rank highlight for top 3 */
-.leaderboard-table tr:nth-child(1) { background-color: rgba(255, 215, 0, 0.2); } /* Gold tint */
-.leaderboard-table tr:nth-child(2) { background-color: rgba(192, 192, 192, 0.2); } /* Silver tint */
-.leaderboard-table tr:nth-child(3) { background-color: rgba(205, 127, 50, 0.2); } /* Bronze tint */
+.leaderboard-table tr:nth-child(1) { background-color: rgba(255, 215, 0, 0.2); } 
+.leaderboard-table tr:nth-child(2) { background-color: rgba(192, 192, 192, 0.2); } 
+.leaderboard-table tr:nth-child(3) { background-color: rgba(205, 127, 50, 0.2); } 
 
 /* Centering columns */
 .leaderboard-table tr td:nth-child(1),
