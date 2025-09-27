@@ -5,11 +5,11 @@ let processedLevels = [];
 let submitted = false; 
 
 /**
- * Calculates the 100% FHLL Points for a given rank using exponential decay.
+ * Calculates the 100% VLL Points for a given rank using exponential decay.
  * R=1 gives 500 points. R=N (total levels) gives approx 1 point.
  * @param {number} rank - The rank of the level (1-indexed).
  * @param {number} totalLevels - The total number of levels on the list.
- * @returns {number} The 100% completion FHLL Points.
+ * @returns {number} The 100% completion VLL Points.
  */
 function calculateExponentialPoints(rank, totalLevels) {
     if (rank === 1) return 500;
@@ -29,11 +29,11 @@ function calculateExponentialPoints(rank, totalLevels) {
 }
 
 /**
- * Calculates FHLL Points for a player based on their completion percentage.
+ * Calculates VLL Points for a player based on their completion percentage.
  * @param {number} P_100 - The 100% completion points for the level.
  * @param {number} percentage - The player's completion percentage (0-100).
  * @param {number} listPercentThreshold - The level's List% requirement (e.g., 75).
- * @returns {number} The FHLL Points earned.
+ * @returns {number} The VLL Points earned.
  */
 function calculateVLLPoints(P_100, percentage, listPercentThreshold) {
     if (percentage === 100) return P_100;
@@ -56,7 +56,6 @@ function calculateVLLPoints(P_100, percentage, listPercentThreshold) {
     // Points per percentage point in the linear zone
     const pointsPerPercent = P_linear / percentSpan;
     
-    // Points earned in the linear zone
     const earnedLinearPoints = pointsPerPercent * (percentage - listPercentThreshold);
     
     return parseFloat((P_list + earnedLinearPoints).toFixed(2));
@@ -64,7 +63,7 @@ function calculateVLLPoints(P_100, percentage, listPercentThreshold) {
 
 
 /**
- * Processes the raw LEVEL_DATA, calculates rank, FHLL Points, and merges records.
+ * Processes the raw LEVEL_DATA, calculates rank, VLL Points, and merges records.
  */
 function processLevelData() {
     if (typeof LEVEL_DATA === 'undefined' || !Array.isArray(LEVEL_DATA) || LEVEL_DATA.length === 0) {
@@ -78,7 +77,7 @@ function processLevelData() {
     processedLevels = LEVEL_DATA.map((level, index) => {
         const rank = index + 1;
         
-        // 1. Calculate 100% FHLL Points
+        // 1. Calculate 100% VLL Points
         const P_100 = calculateExponentialPoints(rank, totalLevels);
         
         // 2. Merge Victors (now called Records) from VICTOR_COMPLETIONS
@@ -146,7 +145,6 @@ function setupSubmitPage() {
     // 2. Populate the dropdown
     processedLevels.forEach(level => {
         const option = document.createElement('option');
-        // NOTE: The 'value' sent to Google Forms MUST match the option text in the Google Form! 
         option.value = level.name; 
         option.textContent = `#${level.rank} - ${level.name}`;
         option.dataset.rank = level.rank;
@@ -165,7 +163,7 @@ function setupSubmitPage() {
 function handleLevelChange() {
     const levelSelect = document.getElementById('submit-level-select');
     const rawFootageInput = document.getElementById('raw-footage'); 
-    const rawFootageLabel = document.querySelector('#raw-footage-row label'); // Select the label within the row
+    const rawFootageLabel = document.querySelector('#raw-footage-row label'); 
     
     if (!levelSelect || !rawFootageInput || !rawFootageLabel) return;
     
@@ -175,11 +173,9 @@ function handleLevelChange() {
     // Logic: Raw footage is MANDATORY for Top 15 (rank 1 through 15)
     if (rank > 0 && rank <= 15) {
         rawFootageInput.setAttribute('required', 'true');
-        // Update the label for Top 15 levels
         rawFootageLabel.innerHTML = 'Raw Footage (Required for Top 15): <span class="required-asterisk">*</span>'; 
     } else {
         rawFootageInput.removeAttribute('required');
-        // Revert to optional label for levels below rank 15
         rawFootageLabel.innerHTML = 'Raw Footage (Optional):'; 
     }
 }
@@ -198,13 +194,13 @@ function renderLevelList() {
          return;
     }
 
-    sidebar.innerHTML = '<h3>FHLL Levels</h3>';
+    // RESTORED: "VLL" name in sidebar
+    sidebar.innerHTML = '<h3>VLL Levels</h3>';
     detailsContainer.innerHTML = '';
     recordsSidebar.innerHTML = '';
     
-    // Re-check processed levels just in case this is called dynamically
     if (processedLevels.length === 0) {
-        processLevelData(); // Attempt to process data again
+        processLevelData(); 
     }
     
     if (processedLevels.length === 0) {
@@ -227,7 +223,6 @@ function renderLevelList() {
     });
 
     if (processedLevels.length > 0) {
-        // Automatically click the first level to show its details
         const firstItem = document.getElementById('level-item-1');
         if(firstItem) firstItem.click();
     }
@@ -239,23 +234,17 @@ function renderLevelDetails(level) {
 
     if (!container || !recordsSidebar) return;
     
-    // Normalize YouTube URL for embedding
     let embedUrl = level.video.includes('watch?v=')
         ? level.video.replace("watch?v=", "embed/")
         : (level.video.includes("youtu.be/") ? level.video.replace("youtu.be/", "youtube.com/embed/") : level.video);
     
-    // Calculate List Points for the List% threshold
+    // Calculate List Points for the List% threshold (still needed for record processing, but not displayed)
     const P_list = (level.P_100 * 0.1).toFixed(2);
     
-    // Verifier logic (display "Verifier by" or just "Creator")
     const verifierName = level.verifier === level.creator ? level.verifier : (level.verifier || "N/A");
 
-    // FHLL Points Display string (List% and 100%)
-    const listPointsDisplay = `
-        <span class="list-points-display">${P_list} (List%)</span>
-        — 
-        <span class="list-points-display">${level.P_100.toFixed(2)} (100%) points
-    `;
+    // VLL Points Display string (Only showing 100% points now)
+    const pointsDisplay = `<span class="list-points-display">${level.P_100.toFixed(2)} (100%) points</span>`;
     
     container.innerHTML = `
         <h3 class="level-title">#${level.rank} - ${level.name} <span class="level-verifier">// Verified by ${verifierName}</span></h3>
@@ -276,12 +265,9 @@ function renderLevelDetails(level) {
         
         <div class="level-info-row">
             <p><strong>Level ID:</strong> ${level.id}</p>
-            <p><strong>FHLL Points:</strong> ${listPointsDisplay}</p>
-            <p><strong>List Percent:</strong> ${level.listPercent}%</p>
+            <p><strong>VLL Points:</strong> ${pointsDisplay}</p>
             <p><strong>WR:</strong> ${level.currentWR !== null ? level.currentWR + '%' : 'N/A'} (Min: ${level.minWR}%)</p>
-            <p><strong>Highest List Run:</strong> ${level.listRunWR !== null ? level.listRunWR + '%' : 'N/A'}</p>
-            <p><strong>List% Points:</strong> ${P_list} pts</p>
-        </div>
+            </div>
     `;
 
     // Render Records List
@@ -301,10 +287,8 @@ function renderLevelDetails(level) {
         });
         
         level.records.forEach(record => {
-            // Determine tags
             const tags = (record.tag || 'Victor').split(',').map(tag => tag.trim());
             
-            // Map tags to CSS classes
             const tagHtml = tags.map(tag => {
                 const tagClass = {
                     'Verifier': 'tag-verifier',
@@ -320,7 +304,7 @@ function renderLevelDetails(level) {
 
             const pointsDisplay = record.points > 0 
                 ? `${record.points.toFixed(2)} pts` 
-                : `<span style="color: #aaa;">${record.percent}%</span>`; // No points, just display %
+                : `<span style="color: #aaa;">${record.percent}%</span>`; 
 
             recordsSidebar.innerHTML += `
                 <div class="victor-item">
@@ -358,20 +342,17 @@ function calculateLeaderboardData() {
             
             // Only count points from the highest record per level
             if (points > (playerStats[username].levelScores[level.name] || 0)) {
-                 // Subtract the old score, add the new higher score
                  playerStats[username].points += (points - (playerStats[username].levelScores[level.name] || 0));
-                 playerStats[username].levelScores[level.name] = points; // Store the highest score for this level
+                 playerStats[username].levelScores[level.name] = points; 
             }
 
             // Only count 100% completions for "Levels Beaten" and "Hardest Level"
             if (record.percent === 100) {
-                // Check if they've already beaten it (only count once)
                 if (playerStats[username][`beaten-${level.name}`] !== true) {
                     playerStats[username].levelsBeaten += 1;
                     playerStats[username][`beaten-${level.name}`] = true;
                 }
                 
-                // Track hardest beaten level (lowest rank number is hardest)
                 if (level.rank < playerStats[username].hardestRank) {
                     playerStats[username].hardestLevel = level.name;
                     playerStats[username].hardestRank = level.rank;
@@ -427,20 +408,18 @@ function renderLeaderboard(page = 1) {
         const row = leaderboardBody.insertRow();
         row.insertCell().textContent = player.rank;
         row.insertCell().textContent = player.username;
-        row.insertCell().textContent = player.points.toFixed(2); // Display FHLL Points with decimals
+        row.insertCell().textContent = player.points.toFixed(2); // Display VLL Points with decimals
         row.insertCell().textContent = player.hardestLevel;
         row.insertCell().textContent = player.levelsBeaten;
     });
 }
 
 
-// --- Initialization and Page Routing ---
+// --- Initialization ---
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Process the data first (Calculates points/ranking/WRs)
     processLevelData();
 
-    // 2. Handle initial page load based on URL hash (Handled by changePage in index.html)
-    // The changePage function is called at the end of index.html's script block,
-    // which ensures the render functions are called after the data is processed.
+    // The rest of the rendering/routing is handled by the script block in index.html
 });
