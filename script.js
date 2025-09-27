@@ -39,6 +39,8 @@ function calculateExponentialPoints(rank, totalLevels) {
  */
 function calculateVLLPoints(P_100, percentage, listPercentThreshold) {
     if (percentage === 100) return P_100;
+    
+    // Check if the run meets the List% threshold
     if (percentage < listPercentThreshold) return 0;
 
     // P_List% = 10% of P_100
@@ -50,6 +52,9 @@ function calculateVLLPoints(P_100, percentage, listPercentThreshold) {
     // Percentage span for the linear zone
     const percentSpan = 100 - listPercentThreshold; 
     
+    // If percentSpan is 0 (i.e., List% is 100), then points are P_100 or 0
+    if (percentSpan <= 0) return (percentage >= 100 ? P_100 : 0);
+
     // Points per percentage point in the linear zone
     const pointsPerPercent = P_linear / percentSpan;
     
@@ -64,7 +69,7 @@ function calculateVLLPoints(P_100, percentage, listPercentThreshold) {
  * Processes the raw LEVEL_DATA, calculates rank, VLL Points, and merges records.
  */
 function processLevelData() {
-    if (typeof LEVEL_DATA !== 'undefined' && Array.isArray(LEVEL_DATA)) {
+    if (typeof LEVEL_DATA !== 'undefined' && Array.isArray(LEVEL_DATA) && LEVEL_DATA.length > 0) {
         const totalLevels = LEVEL_DATA.length;
         
         processedLevels = LEVEL_DATA.map((level, index) => {
@@ -88,6 +93,11 @@ function processLevelData() {
             const wrRecord = processedRecords
                 .filter(r => r.percent < 100 && r.percent >= level.minWR)
                 .sort((a, b) => b.percent - a.percent)[0];
+            
+            // Find the highest list run (highest run >= listPercent and < 100%)
+            const listRunRecord = processedRecords
+                .filter(r => r.percent < 100 && r.percent >= level.listPercent)
+                .sort((a, b) => b.percent - a.percent)[0];
 
             return {
                 ...level,
@@ -95,11 +105,13 @@ function processLevelData() {
                 P_100: P_100, // Store 100% points for display
                 records: processedRecords,
                 currentWR: wrRecord ? wrRecord.percent : level.currentWR, // Use the highest submitted WR, or data.js value
+                listRunWR: listRunRecord ? listRunRecord.percent : null, // The highest run that actually earned list points
                 minWR: level.minWR || 0 // Default to 0 if missing
             };
         });
     } else {
-        console.error("LEVEL_DATA is undefined or not an array. Please check data.js.");
+        console.error("LEVEL_DATA is undefined, empty, or not an array. Please check data.js.");
+        processedLevels = []; // Ensure it is set to an empty array to prevent further errors
     }
 }
 
@@ -114,6 +126,7 @@ function setupSubmitPage() {
     if (!levelSelect) return;
 
     // 1. Clear existing options
+    // Start from 1 to preserve the default "Select a Level" option (index 0)
     for (let i = levelSelect.options.length - 1; i > 0; i--) {
         levelSelect.remove(i);
     }
@@ -173,7 +186,7 @@ function renderLevelList() {
     recordsSidebar.innerHTML = '';
     
     if (processedLevels.length === 0) {
-        sidebar.innerHTML += '<p>No levels loaded from data.js. Check your console for errors.</p>';
+        sidebar.innerHTML += '<p style="padding: 10px;">Levels failed to load. Check console or data.js.</p>';
         return;
     }
 
@@ -192,6 +205,7 @@ function renderLevelList() {
     });
 
     if (processedLevels.length > 0) {
+        // Automatically click the first level to show its details
         const firstItem = document.getElementById('level-item-1');
         if(firstItem) firstItem.click();
     }
@@ -203,21 +217,23 @@ function renderLevelDetails(level) {
 
     if (!container || !recordsSidebar) return;
     
+    // Normalize YouTube URL for embedding
     let embedUrl = level.video.includes('watch?v=')
         ? level.video.replace("watch?v=", "embed/")
         : (level.video.includes("youtu.be/") ? level.video.replace("youtu.be/", "youtube.com/embed/") : level.video);
     
-    const safeEndscreen = level.endscreenDeath === "Impossible" ? "Yes" : "No";
+    // Calculate List Points for the List% threshold
+    const P_list = (level.P_100 * 0.1).toFixed(2);
+    
+    const verifierName = level.verifier === level.creator ? level.verifier : (level.verifier || "N/A");
 
     // VLL Points Display string (List% and 100%)
     const listPointsDisplay = `
-        <span class="list-points-display">${(level.P_100 * 0.1).toFixed(2)} (List%)</span>
+        <span class="list-points-display">${P_list} (List%)</span>
         — 
         <span class="list-points-display">${level.P_100.toFixed(2)} (100%) points
     `;
     
-    const verifierName = level.verifier === level.creator ? level.verifier : (level.verifier || "N/A");
-
     container.innerHTML = `
         <h3 class="level-title">#${level.rank} - ${level.name} <span class="level-verifier">// Verified by ${verifierName}</span></h3>
         <p class="level-creator-info">Created by ${level.creator} // Published by ${level.publisher}</p>
@@ -238,10 +254,10 @@ function renderLevelDetails(level) {
         <div class="level-info-row">
             <p><strong>Level ID:</strong> ${level.id}</p>
             <p><strong>VLL Points:</strong> ${listPointsDisplay}</p>
-            <p><strong>Minimum Required WR:</strong> ${level.minWR}%</p>
-            <p><strong>WR:</strong> ${level.currentWR !== null ? level.currentWR + '%' : 'N/A'}</p>
             <p><strong>List Percent:</strong> ${level.listPercent}%</p>
-            <p><strong>Safe Endscreen:</strong> ${safeEndscreen}</p>
+            <p><strong>WR:</strong> ${level.currentWR !== null ? level.currentWR + '%' : 'N/A'} (Min: ${level.minWR}%)</p>
+            <p><strong>Highest List Run:</strong> ${level.listRunWR !== null ? level.listRunWR + '%' : 'N/A'}</p>
+            <p><strong>List% Points:</strong> ${P_list} pts</p>
         </div>
     `;
 
@@ -254,7 +270,12 @@ function renderLevelDetails(level) {
                 <span class="right-text">Points / %</span>
             </div>
         `;
-        level.records.sort((a, b) => new Date(a.date) - new Date(b.date));
+        // Sort by Points (desc), then Percentage (desc), then Date (asc)
+        level.records.sort((a, b) => {
+            if (b.points !== a.points) return b.points - a.points;
+            if (b.percent !== a.percent) return b.percent - a.percent;
+            return new Date(a.date) - new Date(b.date);
+        });
         
         level.records.forEach(record => {
             const tagClass = {
@@ -266,9 +287,9 @@ function renderLevelDetails(level) {
                 'List Run': 'tag-normal',
             }[record.tag] || 'tag-normal';
 
-            const pointsDisplay = record.percent === 100 
+            const pointsDisplay = record.points > 0 
                 ? `${record.points.toFixed(2)} pts` 
-                : `${record.points.toFixed(2)} pts (${record.percent}%)`;
+                : `<span style="color: #aaa;">${record.percent}%</span>`; // No points, just display %
 
             recordsSidebar.innerHTML += `
                 <div class="victor-item">
@@ -301,13 +322,14 @@ function calculateLeaderboardData() {
             const points = record.points; 
             
             if (!playerStats[username]) {
-                playerStats[username] = { points: 0, levelsBeaten: 0, records: 0, hardestLevel: 'N/A', hardestRank: Infinity };
+                playerStats[username] = { points: 0, levelsBeaten: 0, records: 0, hardestLevel: 'N/A', hardestRank: Infinity, levelScores: {} };
             }
             
             // Only count points from the highest record per level
-            if (points > (playerStats[username][level.name] || 0)) {
-                 playerStats[username].points += (points - (playerStats[username][level.name] || 0));
-                 playerStats[username][level.name] = points; // Store the highest score for this level
+            if (points > (playerStats[username].levelScores[level.name] || 0)) {
+                 // Subtract the old score, add the new higher score
+                 playerStats[username].points += (points - (playerStats[username].levelScores[level.name] || 0));
+                 playerStats[username].levelScores[level.name] = points; // Store the highest score for this level
             }
 
             // Only count 100% completions for "Levels Beaten" and "Hardest Level"
@@ -318,7 +340,7 @@ function calculateLeaderboardData() {
                     playerStats[username][`beaten-${level.name}`] = true;
                 }
                 
-                // Track hardest beaten level
+                // Track hardest beaten level (lowest rank number is hardest)
                 if (level.rank < playerStats[username].hardestRank) {
                     playerStats[username].hardestLevel = level.name;
                     playerStats[username].hardestRank = level.rank;
@@ -331,17 +353,17 @@ function calculateLeaderboardData() {
 
     let leaderboard = Object.keys(playerStats).map(username => ({
         username: username,
-        ...playerStats[username],
-        records: playerStats[username].records // Re-add total records
+        points: playerStats[username].points,
+        levelsBeaten: playerStats[username].levelsBeaten,
+        records: playerStats[username].records,
+        hardestLevel: playerStats[username].hardestLevel,
+        hardestRank: playerStats[username].hardestRank
     }));
 
+    // Sort: 1. Points (desc), 2. Levels Beaten (desc), 3. Hardest Rank (asc)
     leaderboard.sort((a, b) => {
-        if (b.points !== a.points) {
-            return b.points - a.points; 
-        }
-        if (b.levelsBeaten !== a.levelsBeaten) {
-            return b.levelsBeaten - a.levelsBeaten; 
-        }
+        if (b.points !== a.points) return b.points - a.points; 
+        if (b.levelsBeaten !== a.levelsBeaten) return b.levelsBeaten - a.levelsBeaten; 
         return a.hardestRank - b.hardestRank; 
     });
 
@@ -390,29 +412,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Handle initial page load based on URL hash
     const hash = window.location.hash.substring(1) || 'home';
     
-    // Use the global changePage function defined in index.html (or defined below)
+    // We rely on the changePage function defined in index.html, which calls the render functions.
     if (typeof changePage === 'function') {
         changePage(hash);
     } else {
-        // Fallback definition for changePage if it wasn't in the HTML
-        window.changePage = function(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.add('hidden');
-                page.classList.remove('active');
-            });
-            const targetPage = document.getElementById(pageId + '-page');
-            if(targetPage) {
-                targetPage.classList.remove('hidden');
-                targetPage.classList.add('active');
-            }
-            if (pageId === 'submit') {
-                setupSubmitPage();
-            } else if (pageId === 'list') {
-                renderLevelList();
-            } else if (pageId === 'leaderboard') {
-                renderLeaderboard(1);
-            }
-        };
-        window.changePage(hash);
+        console.error("The changePage function is missing from index.html.");
     }
 });
