@@ -68,17 +68,11 @@ function calculateVLLPoints(P_100, percentage, listPercentThreshold) {
 /**
  * Processes the raw LEVEL_DATA, calculates rank, VLL Points, and merges records.
  */
-// script.js
-
-// ... (other functions remain the same: calculateExponentialPoints, calculateVLLPoints)
-
-/**
- * Processes the raw LEVEL_DATA, calculates rank, VLL Points, and merges records.
- */
 function processLevelData() {
     // CRITICAL FIX: Ensure LEVEL_DATA exists and is an array before processing
+    // NOTE: This relies on the 'data.js' script being loaded BEFORE 'script.js' in index.html
     if (typeof LEVEL_DATA === 'undefined' || !Array.isArray(LEVEL_DATA) || LEVEL_DATA.length === 0) {
-        console.error("LEVEL_DATA is undefined, empty, or not an array. Levels cannot be loaded.");
+        console.error("LEVEL_DATA is undefined, empty, or not an array. Levels cannot be loaded. Check index.html script order.");
         processedLevels = []; 
         return;
     }
@@ -112,70 +106,31 @@ function processLevelData() {
             .filter(r => r.percent < 100 && r.percent >= level.listPercent)
             .sort((a, b) => b.percent - a.percent)[0];
 
+        // Determine actual currentWR (100% if verified, otherwise highest submitted run)
+        const isVerified = (level.verifier && processedRecords.find(r => r.name === level.verifier && r.percent === 100));
+        let actualCurrentWR = null;
+        if (isVerified) {
+            actualCurrentWR = 100;
+        } else if (wrRecord) {
+            actualCurrentWR = wrRecord.percent;
+        } else {
+            actualCurrentWR = level.currentWR; // Fallback to manually set WR
+        }
+
         return {
             ...level,
             rank: rank,
             P_100: P_100, // Store 100% points for display
             records: processedRecords,
-            // The WR is either the Verifier's 100% run, or the highest submitted run < 100%
-            currentWR: (level.verifier && processedRecords.find(r => r.name === level.verifier && r.percent === 100))
-                        ? '100' 
-                        : (wrRecord ? wrRecord.percent : level.currentWR), 
+            currentWR: actualCurrentWR, 
             listRunWR: listRunRecord ? listRunRecord.percent : null, 
             minWR: level.minWR || 0 
         };
     });
-    // LOGGING: This line is helpful for debugging to confirm the data processed
-    console.log("Processed Levels:", processedLevels); 
+    console.log(`Processed ${processedLevels.length} Levels.`); 
 }
 
-// ... (setupSubmitPage and handleLevelChange functions remain the same)
 
-function renderLevelList() {
-    const sidebar = document.getElementById('level-list-sidebar');
-    const detailsContainer = document.getElementById('level-details-container');
-    const recordsSidebar = document.getElementById('level-victors-list');
-
-    if (!sidebar || !detailsContainer || !recordsSidebar) return;
-
-    // Reset list layout
-    sidebar.innerHTML = '<h3>VLL Levels</h3>';
-    detailsContainer.innerHTML = '';
-    recordsSidebar.innerHTML = '';
-    
-    // CRITICAL CHECK: Attempt to process data if it's empty
-    if (processedLevels.length === 0) {
-        processLevelData(); 
-        if (processedLevels.length === 0) {
-            sidebar.innerHTML += '<p style="padding: 10px;">Levels failed to load. Check console for data errors.</p>';
-            return;
-        }
-    }
-
-    processedLevels.forEach(level => {
-        const levelItem = document.createElement('div');
-        levelItem.classList.add('level-list-item');
-        levelItem.id = `level-item-${level.rank}`; 
-        
-        // Use the level's actual creator name
-        levelItem.innerHTML = `<span class="level-rank">#${level.rank} - </span><span class="level-name">${level.name}</span><span class="level-creator">by ${level.creator}</span>`;
-        
-        levelItem.addEventListener('click', () => {
-            document.querySelectorAll('.level-list-item').forEach(item => item.classList.remove('active'));
-            levelItem.classList.add('active');
-            renderLevelDetails(level);
-        });
-        sidebar.appendChild(levelItem);
-    });
-
-    if (processedLevels.length > 0) {
-        // Automatically click the first level to show its details
-        const firstItem = document.getElementById('level-item-1');
-        if(firstItem) firstItem.click();
-    }
-}
-
-// ... (renderLevelDetails, calculateLeaderboardData, and renderLeaderboard functions remain the same)
 // ----------------------------------------------------------------------
 // --- SUBMIT PAGE LOGIC ---
 // ----------------------------------------------------------------------
@@ -242,7 +197,10 @@ function renderLevelList() {
     const detailsContainer = document.getElementById('level-details-container');
     const recordsSidebar = document.getElementById('level-victors-list');
 
-    if (!sidebar || !detailsContainer || !recordsSidebar) return;
+    if (!sidebar || !detailsContainer || !recordsSidebar) {
+         console.error("Missing critical element IDs for the list page.");
+         return;
+    }
 
     sidebar.innerHTML = '<h3>VLL Levels</h3>';
     detailsContainer.innerHTML = '';
@@ -254,7 +212,7 @@ function renderLevelList() {
     }
     
     if (processedLevels.length === 0) {
-        sidebar.innerHTML += '<p style="padding: 10px;">Levels failed to load. Check console for data errors.</p>';
+        sidebar.innerHTML += '<p style="padding: 10px;">Levels failed to load. Check console for data errors and script order.</p>';
         return;
     }
 
@@ -418,7 +376,8 @@ function calculateLeaderboardData() {
                 }
             }
             
-            playerStats[username].records += 1; // Total number of records submitted
+            // NOTE: This counts ALL submitted records, not just the best one. You might want to adjust this.
+            playerStats[username].records += 1; 
         });
     });
 
@@ -434,7 +393,7 @@ function calculateLeaderboardData() {
     // Sort: 1. Points (desc), 2. Levels Beaten (desc), 3. Hardest Rank (asc)
     leaderboard.sort((a, b) => {
         if (b.points !== a.points) return b.points - a.points; 
-        if (b.levelsBeaten !== a.levelsBeaten) return b.levelsBeaten - b.levelsBeaten; 
+        if (b.levelsBeaten !== a.levelsBeaten) return b.levelsBeaten - a.levelsBeaten; // Fix: was b.levelsBeaten - b.levelsBeaten
         return a.hardestRank - b.hardestRank; 
     });
 
