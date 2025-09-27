@@ -69,53 +69,55 @@ function calculateVLLPoints(P_100, percentage, listPercentThreshold) {
  * Processes the raw LEVEL_DATA, calculates rank, VLL Points, and merges records.
  */
 function processLevelData() {
-    if (typeof LEVEL_DATA !== 'undefined' && Array.isArray(LEVEL_DATA) && LEVEL_DATA.length > 0) {
-        const totalLevels = LEVEL_DATA.length;
-        
-        processedLevels = LEVEL_DATA.map((level, index) => {
-            const rank = index + 1;
-            
-            // 1. Calculate 100% VLL Points
-            const P_100 = calculateExponentialPoints(rank, totalLevels);
-            
-            // 2. Merge Victors (now called Records) from VICTOR_COMPLETIONS
-            const records = (typeof VICTOR_COMPLETIONS !== 'undefined' && Array.isArray(VICTOR_COMPLETIONS))
-                ? VICTOR_COMPLETIONS.filter(record => record.levelName === level.name)
-                : [];
-            
-            // Calculate points for each record
-            const processedRecords = records.map(record => ({
-                ...record,
-                points: calculateVLLPoints(P_100, record.percent, level.listPercent)
-            }));
-
-            // Find the World Record (highest run < 100% that meets minWR)
-            const wrRecord = processedRecords
-                .filter(r => r.percent < 100 && r.percent >= level.minWR)
-                .sort((a, b) => b.percent - a.percent)[0];
-            
-            // Find the highest list run (highest run >= listPercent and < 100%)
-            const listRunRecord = processedRecords
-                .filter(r => r.percent < 100 && r.percent >= level.listPercent)
-                .sort((a, b) => b.percent - a.percent)[0];
-
-            return {
-                ...level,
-                rank: rank,
-                P_100: P_100, // Store 100% points for display
-                records: processedRecords,
-                // The WR is either the Verifier's 100% run, or the highest submitted run < 100%
-                currentWR: (level.verifier && processedRecords.find(r => r.name === level.verifier && r.percent === 100))
-                            ? '100' // If the verifier beat it, 100% is the WR
-                            : (wrRecord ? wrRecord.percent : level.currentWR), // Otherwise use the highest non-100 WR, or default
-                listRunWR: listRunRecord ? listRunRecord.percent : null, 
-                minWR: level.minWR || 0 // Default to 0 if missing
-            };
-        });
-    } else {
-        console.error("LEVEL_DATA is undefined, empty, or not an array. Please check data.js.");
-        processedLevels = []; // Ensure it is set to an empty array to prevent further errors
+    // CRITICAL FIX: Ensure LEVEL_DATA exists and is an array before processing
+    if (typeof LEVEL_DATA === 'undefined' || !Array.isArray(LEVEL_DATA) || LEVEL_DATA.length === 0) {
+        console.error("LEVEL_DATA is undefined, empty, or not an array. Levels cannot be loaded.");
+        processedLevels = []; 
+        return;
     }
+
+    const totalLevels = LEVEL_DATA.length;
+    
+    processedLevels = LEVEL_DATA.map((level, index) => {
+        const rank = index + 1;
+        
+        // 1. Calculate 100% VLL Points
+        const P_100 = calculateExponentialPoints(rank, totalLevels);
+        
+        // 2. Merge Victors (now called Records) from VICTOR_COMPLETIONS
+        const records = (typeof VICTOR_COMPLETIONS !== 'undefined' && Array.isArray(VICTOR_COMPLETIONS))
+            ? VICTOR_COMPLETIONS.filter(record => record.levelName === level.name)
+            : [];
+        
+        // Calculate points for each record
+        const processedRecords = records.map(record => ({
+            ...record,
+            points: calculateVLLPoints(P_100, record.percent, level.listPercent)
+        }));
+
+        // Find the World Record (highest run < 100% that meets minWR)
+        const wrRecord = processedRecords
+            .filter(r => r.percent < 100 && r.percent >= level.minWR)
+            .sort((a, b) => b.percent - a.percent)[0];
+        
+        // Find the highest list run (highest run >= listPercent and < 100%)
+        const listRunRecord = processedRecords
+            .filter(r => r.percent < 100 && r.percent >= level.listPercent)
+            .sort((a, b) => b.percent - a.percent)[0];
+
+        return {
+            ...level,
+            rank: rank,
+            P_100: P_100, // Store 100% points for display
+            records: processedRecords,
+            // The WR is either the Verifier's 100% run, or the highest submitted run < 100%
+            currentWR: (level.verifier && processedRecords.find(r => r.name === level.verifier && r.percent === 100))
+                        ? '100' 
+                        : (wrRecord ? wrRecord.percent : level.currentWR), 
+            listRunWR: listRunRecord ? listRunRecord.percent : null, 
+            minWR: level.minWR || 0 
+        };
+    });
 }
 
 // ----------------------------------------------------------------------
@@ -163,13 +165,15 @@ function handleLevelChange() {
     const selectedOption = levelSelect.options[levelSelect.selectedIndex];
     const rank = selectedOption ? (parseInt(selectedOption.dataset.rank, 10) || 0) : 0;
     
-    // Logic: Raw footage is mandatory for Top 15 
+    // Logic: Raw footage is MANDATORY for Top 15 (rank 1 through 15)
     if (rank > 0 && rank <= 15) {
         rawFootageInput.setAttribute('required', 'true');
-        rawFootageLabel.innerHTML = 'Raw Footage (Top 15 Only): <span class="required-asterisk">*</span>';
+        // Add the asterisk to the label for Top 15 levels
+        rawFootageLabel.innerHTML = 'Raw Footage (Top 15 Only): <span class="required-asterisk">*</span>'; 
     } else {
         rawFootageInput.removeAttribute('required');
-        rawFootageLabel.innerHTML = 'Raw Footage (Top 15 Only):'; // No asterisk for optional
+        // Revert to optional label for levels below rank 15
+        rawFootageLabel.innerHTML = 'Raw Footage (Optional):'; 
     }
 }
 
@@ -189,7 +193,7 @@ function renderLevelList() {
     recordsSidebar.innerHTML = '';
     
     if (processedLevels.length === 0) {
-        sidebar.innerHTML += '<p style="padding: 10px;">Levels failed to load. Check console or data.js.</p>';
+        sidebar.innerHTML += '<p style="padding: 10px;">Levels failed to load. Check data.js.</p>';
         return;
     }
 
@@ -290,7 +294,7 @@ function renderLevelDetails(level) {
                 'Second Victor': 'tag-silver',
                 'Third Victor': 'tag-bronze',
                 'List Run': 'tag-normal',
-                'Victor': 'tag-normal', // Use 'Victor' for 4th+ completions
+                'Victor': 'tag-normal', 
             }[record.tag] || 'tag-normal';
 
             const pointsDisplay = record.points > 0 
