@@ -15,7 +15,10 @@ const LEVEL_DATA = [
         description: "The ultimate endurance test, in the works since 2022. | Verified by Cuatrocientos in 221.703 attempts.",
         listPercent: 75, // The List% threshold for this level (e.g., 75, 80, 90)
         minWR: 5, // Minimum World Record percentage required for tracking
-        currentWR: null 
+        currentWR: null,
+        // ADDED: Length and Skillsets for Level Info
+        length: "Long",
+        skillsets: { ship: 5, wave: 5, timings: 8 }
     },
     {
         name: "Thinking Space II",
@@ -27,7 +30,10 @@ const LEVEL_DATA = [
         description: "A mindscape of pure insanity, most fall to its brutal nature. Gameplay by CoCy team, deco hosted by DrCuber, Verified by Zoink. Dedicated to Hideki <3",
         listPercent: 80,
         minWR: 10,
-        currentWR: 98 // Example of a non-100% WR
+        currentWR: 98, // Example of a non-100% WR
+        // ADDED: Length and Skillsets for Level Info
+        length: "XL",
+        skillsets: { ship: 8, wave: 7, timings: 9 }
     },
     {
         name: "Tidal Wave buffed",
@@ -39,7 +45,10 @@ const LEVEL_DATA = [
         description: "April fools but real!",
         listPercent: 70,
         minWR: 5,
-        currentWR: null
+        currentWR: null,
+        // ADDED: Length and Skillsets for Level Info
+        length: "Medium",
+        skillsets: { ship: 9, wave: 10, timings: 7 }
     },
     {
         name: "Tidal Wave",
@@ -51,7 +60,10 @@ const LEVEL_DATA = [
         description: "Drown them",
         listPercent: 75,
         minWR: 5,
-        currentWR: 99
+        currentWR: 99,
+        // ADDED: Length and Skillsets for Level Info
+        length: "Medium",
+        skillsets: { ship: 8, wave: 9, timings: 6 }
     },
     {
         name: "Silent clubstep",
@@ -63,7 +75,10 @@ const LEVEL_DATA = [
         description: "7 years and you still play me?!",
         listPercent: 85,
         minWR: 20,
-        currentWR: null
+        currentWR: null,
+        // ADDED: Length and Skillsets for Level Info
+        length: "XL",
+        skillsets: { ship: 7, wave: 6, timings: 9 }
     },
     {
         name: "Avernus",
@@ -75,7 +90,10 @@ const LEVEL_DATA = [
         description: "By Bo & Kyhros - https://discord.gg/YcNkfHMJGv",
         listPercent: 70,
         minWR: 5,
-        currentWR: null
+        currentWR: null,
+        // ADDED: Length and Skillsets for Level Info
+        length: "Long",
+        skillsets: { ship: 6, wave: 7, timings: 8 }
     },
     // Add more levels here with the new structure.
 ];
