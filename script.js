@@ -4,10 +4,9 @@
 let processedLevels = []; 
 let leaderboardData = []; 
 
-// NEW: Helper function to navigate to the Stats Viewer page and populate the search field
+// Helper function to navigate to the Stats Viewer page and populate the search field
 function goToStatsViewer(username) {
     // This function assumes a global showPage('stats') function exists to switch the view.
-    // Replace this with your actual routing logic if necessary.
     if (typeof showPage === 'function') {
         showPage('stats'); // Switch to the stats page
     } else {
@@ -279,7 +278,7 @@ function renderLevelDetails(level) {
         ? 'Verified'
         : (level.currentWR !== null ? `${level.currentWR}%` : 'N/A');
     
-    // Format Level Skillsets: Ship, Wave, Timings: shows level skillsets in level info
+    // Format Level Skillsets: Ship, Wave, Timings (removed 1-10 text)
     const skillsets = level.skillsets || { ship: 'N/A', wave: 'N/A', timings: 'N/A' };
     const skillsetDisplay = `
         <div class="skillset-display">
@@ -309,7 +308,9 @@ function renderLevelDetails(level) {
         <div class="level-info-row">
             <p><strong>Level ID:</strong> ${level.id}</p>
             <p><strong>VLL Points:</strong> ${pointsDisplay}</p>
-            <p><strong>Length:</strong> ${level.length || 'N/A'}</p> <p><strong>Level Skillsets (1-10):</strong> ${skillsetDisplay}</p> <p><strong>In Game Difficulty Estimation:</strong> ${level.difficultyEst}</p>
+            <p><strong>Length:</strong> ${level.length || 'N/A'}</p> 
+            <p><strong>Level Skillsets:</strong> ${skillsetDisplay}</p>
+            <p><strong>In Game Difficulty Estimation:</strong> ${level.difficultyEst}</p>
             <p><strong>WR:</strong> ${wrDisplay} (Minimum Required WR: ${level.minWR}%)</p> 
         </div>
     `;
@@ -450,9 +451,8 @@ function renderLeaderboard(page = 1) {
         const row = leaderboardBody.insertRow();
         row.insertCell().textContent = player.rank;
         
-        // Clicking on a player in the leaderboard goes to their stats viewer page
+        // Corrected: Clicking player name links to stats viewer
         const nameCell = row.insertCell();
-        // Use an onclick handler to call the new navigation function
         nameCell.innerHTML = `<a href="#" onclick="goToStatsViewer('${player.username.replace(/'/g, "\\'")}')">${player.username}</a>`;
         nameCell.classList.add('leaderboard-player-name'); 
         
