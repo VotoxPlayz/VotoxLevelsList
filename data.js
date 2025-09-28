@@ -16,8 +16,8 @@ const LEVEL_DATA = [
         listPercent: 75, // The List% threshold for this level (e.g., 75, 80, 90)
         minWR: 5, // Minimum World Record percentage required for tracking
         currentWR: null,
-        // ADDED: Length and Skillsets for Level Info
-        length: "Long",
+        // UPDATED: Length is now in minutes:seconds format
+        length: "1:35", 
         skillsets: { ship: 5, wave: 5, timings: 8 }
     },
     {
@@ -31,8 +31,8 @@ const LEVEL_DATA = [
         listPercent: 80,
         minWR: 10,
         currentWR: 98, // Example of a non-100% WR
-        // ADDED: Length and Skillsets for Level Info
-        length: "XL",
+        // UPDATED: Length is now in minutes:seconds format
+        length: "2:10",
         skillsets: { ship: 8, wave: 7, timings: 9 }
     },
     {
@@ -46,8 +46,8 @@ const LEVEL_DATA = [
         listPercent: 70,
         minWR: 5,
         currentWR: null,
-        // ADDED: Length and Skillsets for Level Info
-        length: "Medium",
+        // UPDATED: Length is now in minutes:seconds format
+        length: "1:05",
         skillsets: { ship: 9, wave: 10, timings: 7 }
     },
     {
@@ -61,8 +61,8 @@ const LEVEL_DATA = [
         listPercent: 75,
         minWR: 5,
         currentWR: 99,
-        // ADDED: Length and Skillsets for Level Info
-        length: "Medium",
+        // UPDATED: Length is now in minutes:seconds format
+        length: "1:05",
         skillsets: { ship: 8, wave: 9, timings: 6 }
     },
     {
@@ -76,8 +76,8 @@ const LEVEL_DATA = [
         listPercent: 85,
         minWR: 20,
         currentWR: null,
-        // ADDED: Length and Skillsets for Level Info
-        length: "XL",
+        // UPDATED: Length is now in minutes:seconds format
+        length: "2:00",
         skillsets: { ship: 7, wave: 6, timings: 9 }
     },
     {
@@ -91,8 +91,8 @@ const LEVEL_DATA = [
         listPercent: 70,
         minWR: 5,
         currentWR: null,
-        // ADDED: Length and Skillsets for Level Info
-        length: "Long",
+        // UPDATED: Length is now in minutes:seconds format
+        length: "1:40",
         skillsets: { ship: 6, wave: 7, timings: 8 }
     },
     // Add more levels here with the new structure.
