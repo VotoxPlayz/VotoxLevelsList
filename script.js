@@ -278,15 +278,14 @@ function renderLevelDetails(level) {
         ? 'Verified'
         : (level.currentWR !== null ? `${level.currentWR}%` : 'N/A');
     
-    // Format Level Skillsets: Ship, Wave, Timings (removed 1-10 text)
+    // Skillsets: FIX to only display names (Ship, Wave, Timings) without scores
     const skillsets = level.skillsets || { ship: 'N/A', wave: 'N/A', timings: 'N/A' };
-    const skillsetDisplay = `
-        <div class="skillset-display">
-            <strong>Ship:</strong> <span class="skill-value">${skillsets.ship}</span>,
-            <strong>Wave:</strong> <span class="skill-value">${skillsets.wave}</span>,
-            <strong>Timings:</strong> <span class="skill-value">${skillsets.timings}</span>
-        </div>
-    `;
+    const skillsetKeys = Object.keys(skillsets).filter(key => skillsets[key] !== 'N/A');
+    
+    // Capitalize and join the skill names: "Ship, Wave, Timings"
+    const skillNameList = skillsetKeys.map(key => key.charAt(0).toUpperCase() + key.slice(1)).join(', ');
+    
+    const skillsetDisplay = `<div class="skillset-display">${skillNameList}</div>`;
 
     container.innerHTML = `
         <h3 class="level-title">#${level.rank} - ${level.name} <span class="level-verifier">// Verified by ${verifierName}</span></h3>
@@ -371,7 +370,6 @@ function renderLevelDetails(level) {
 // ----------------------------------------------------------------------
 
 function calculateLeaderboardData() {
-    // ... (This function remains unchanged as it just calculates the data)
     const playerStats = {};
 
     if (processedLevels.length === 0) {
@@ -451,7 +449,7 @@ function renderLeaderboard(page = 1) {
         const row = leaderboardBody.insertRow();
         row.insertCell().textContent = player.rank;
         
-        // Corrected: Clicking player name links to stats viewer
+        // Clicking player name links to stats viewer
         const nameCell = row.insertCell();
         nameCell.innerHTML = `<a href="#" onclick="goToStatsViewer('${player.username.replace(/'/g, "\\'")}')">${player.username}</a>`;
         nameCell.classList.add('leaderboard-player-name'); 
