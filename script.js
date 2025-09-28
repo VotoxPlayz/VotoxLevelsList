@@ -4,6 +4,25 @@
 let processedLevels = []; 
 let leaderboardData = []; 
 
+// NEW: Helper function to navigate to the Stats Viewer page and populate the search field
+function goToStatsViewer(username) {
+    // This function assumes a global showPage('stats') function exists to switch the view.
+    // Replace this with your actual routing logic if necessary.
+    if (typeof showPage === 'function') {
+        showPage('stats'); // Switch to the stats page
+    } else {
+        console.warn("showPage() function not found. Assuming Stats Viewer is active.");
+    }
+    
+    const inputElement = document.getElementById('stats-username-input');
+    if (inputElement) {
+        inputElement.value = username;
+        // Trigger the stats search immediately
+        renderPlayerStats(); 
+    }
+}
+
+
 /**
  * Calculates the 100% VLL Points for a given rank using exponential decay.
  * R=1 gives 500 points. R=N (total levels) gives approx 1 point.
@@ -248,18 +267,28 @@ function renderLevelDetails(level) {
     
     const verifierName = level.verifier === level.creator ? level.verifier : (level.verifier || "N/A");
 
-    // VLL Points Display string
+    // Levels display their actual list% instead of 'list%'
     const pointsDisplay = `
-        <span class="list-points-display">${P_list} (List%)</span>
+        <span class="list-points-display">${P_list} (${level.listPercent}%)</span>
         — 
         <span class="list-points-display">${level.P_100.toFixed(2)} (100%) points</span>
     `;
-    
+
     // Determine the WR display
     const wrDisplay = (level.currentWR === 100) 
         ? 'Verified'
         : (level.currentWR !== null ? `${level.currentWR}%` : 'N/A');
     
+    // Format Level Skillsets: Ship, Wave, Timings: shows level skillsets in level info
+    const skillsets = level.skillsets || { ship: 'N/A', wave: 'N/A', timings: 'N/A' };
+    const skillsetDisplay = `
+        <div class="skillset-display">
+            <strong>Ship:</strong> <span class="skill-value">${skillsets.ship}</span>,
+            <strong>Wave:</strong> <span class="skill-value">${skillsets.wave}</span>,
+            <strong>Timings:</strong> <span class="skill-value">${skillsets.timings}</span>
+        </div>
+    `;
+
     container.innerHTML = `
         <h3 class="level-title">#${level.rank} - ${level.name} <span class="level-verifier">// Verified by ${verifierName}</span></h3>
         <p class="level-creator-info">Created by ${level.creator} // Published by ${level.publisher}</p>
@@ -280,7 +309,7 @@ function renderLevelDetails(level) {
         <div class="level-info-row">
             <p><strong>Level ID:</strong> ${level.id}</p>
             <p><strong>VLL Points:</strong> ${pointsDisplay}</p>
-            <p><strong>In Game Difficulty Estimation:</strong> ${level.difficultyEst}</p>
+            <p><strong>Length:</strong> ${level.length || 'N/A'}</p> <p><strong>Level Skillsets (1-10):</strong> ${skillsetDisplay}</p> <p><strong>In Game Difficulty Estimation:</strong> ${level.difficultyEst}</p>
             <p><strong>WR:</strong> ${wrDisplay} (Minimum Required WR: ${level.minWR}%)</p> 
         </div>
     `;
@@ -420,7 +449,13 @@ function renderLeaderboard(page = 1) {
     paginatedData.forEach(player => {
         const row = leaderboardBody.insertRow();
         row.insertCell().textContent = player.rank;
-        row.insertCell().textContent = player.username;
+        
+        // Clicking on a player in the leaderboard goes to their stats viewer page
+        const nameCell = row.insertCell();
+        // Use an onclick handler to call the new navigation function
+        nameCell.innerHTML = `<a href="#" onclick="goToStatsViewer('${player.username.replace(/'/g, "\\'")}')">${player.username}</a>`;
+        nameCell.classList.add('leaderboard-player-name'); 
+        
         row.insertCell().textContent = player.points.toFixed(2); 
         row.insertCell().textContent = player.hardestLevel;
         row.insertCell().textContent = player.levelsBeaten; 
