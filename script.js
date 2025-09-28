@@ -4,25 +4,6 @@
 let processedLevels = []; 
 let leaderboardData = []; 
 
-// Helper function to navigate to the Stats Viewer page and populate the search field
-function goToStatsViewer(username) {
-    // This function assumes a global showPage('stats') function exists to switch the view.
-    // This correctly switches the page and populates the search bar.
-    if (typeof showPage === 'function') {
-        showPage('stats'); // Switch to the stats page
-    } else {
-        console.warn("showPage() function not found. Assuming Stats Viewer is active.");
-    }
-    
-    const inputElement = document.getElementById('stats-username-input');
-    if (inputElement) {
-        inputElement.value = username;
-        // Trigger the stats search immediately
-        renderPlayerStats(); 
-    }
-}
-
-
 /**
  * Calculates the 100% VLL Points for a given rank using exponential decay.
  * R=1 gives 500 points. R=N (total levels) gives approx 1 point.
@@ -267,27 +248,18 @@ function renderLevelDetails(level) {
     
     const verifierName = level.verifier === level.creator ? level.verifier : (level.verifier || "N/A");
 
-    // Levels display their actual list% instead of 'list%'
+    // VLL Points Display string
     const pointsDisplay = `
-        <span class="list-points-display">${P_list} (${level.listPercent}%)</span>
+        <span class="list-points-display">${P_list} (List%)</span>
         — 
         <span class="list-points-display">${level.P_100.toFixed(2)} (100%) points</span>
     `;
-
+    
     // Determine the WR display
     const wrDisplay = (level.currentWR === 100) 
         ? 'Verified'
         : (level.currentWR !== null ? `${level.currentWR}%` : 'N/A');
     
-    // Skillsets: FIX to only display names (Ship, Wave, Timings) without scores
-    const skillsets = level.skillsets || { ship: 'N/A', wave: 'N/A', timings: 'N/A' };
-    const skillsetKeys = Object.keys(skillsets).filter(key => skillsets[key] !== 'N/A');
-    
-    // Capitalize and join the skill names: "Ship, Wave, Timings"
-    const skillNameList = skillsetKeys.map(key => key.charAt(0).toUpperCase() + key.slice(1)).join(', ');
-    
-    const skillsetDisplay = `<div class="skillset-display">${skillNameList}</div>`;
-
     container.innerHTML = `
         <h3 class="level-title">#${level.rank} - ${level.name} <span class="level-verifier">// Verified by ${verifierName}</span></h3>
         <p class="level-creator-info">Created by ${level.creator} // Published by ${level.publisher}</p>
@@ -308,8 +280,6 @@ function renderLevelDetails(level) {
         <div class="level-info-row">
             <p><strong>Level ID:</strong> ${level.id}</p>
             <p><strong>VLL Points:</strong> ${pointsDisplay}</p>
-            <p><strong>Length:</strong> ${level.length || 'N/A'}</p> 
-            <p><strong>Level Skillsets:</strong> ${skillsetDisplay}</p>
             <p><strong>In Game Difficulty Estimation:</strong> ${level.difficultyEst}</p>
             <p><strong>WR:</strong> ${wrDisplay} (Minimum Required WR: ${level.minWR}%)</p> 
         </div>
@@ -371,6 +341,7 @@ function renderLevelDetails(level) {
 // ----------------------------------------------------------------------
 
 function calculateLeaderboardData() {
+    // ... (This function remains unchanged as it just calculates the data)
     const playerStats = {};
 
     if (processedLevels.length === 0) {
@@ -449,12 +420,7 @@ function renderLeaderboard(page = 1) {
     paginatedData.forEach(player => {
         const row = leaderboardBody.insertRow();
         row.insertCell().textContent = player.rank;
-        
-        // Correct Link: Clicking player name links to stats viewer
-        const nameCell = row.insertCell();
-        nameCell.innerHTML = `<a href="#" onclick="goToStatsViewer('${player.username.replace(/'/g, "\\'")}')">${player.username}</a>`;
-        nameCell.classList.add('leaderboard-player-name'); 
-        
+        row.insertCell().textContent = player.username;
         row.insertCell().textContent = player.points.toFixed(2); 
         row.insertCell().textContent = player.hardestLevel;
         row.insertCell().textContent = player.levelsBeaten; 
