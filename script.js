@@ -249,11 +249,12 @@ function renderLevelDetails(level) {
     const verifierName = level.verifier === level.creator ? level.verifier : (level.verifier || "N/A");
 
     // VLL Points Display string
-    const pointsDisplay = `
-        <span class="list-points-display">${P_list} (List%)</span>
-        — 
-        <span class="list-points-display">${level.P_100.toFixed(2)} (100%) points</span>
-    `;
+   // New code:
+const pointsDisplay = `
+    <span class="list-points-display">${P_list} (${level.listPercent}%)</span>
+    — 
+    <span class="list-points-display">${level.P_100.toFixed(2)} (100%) points</span>
+`;
     
     // Determine the WR display
     const wrDisplay = (level.currentWR === 100) 
