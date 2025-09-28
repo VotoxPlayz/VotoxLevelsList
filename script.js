@@ -7,6 +7,7 @@ let leaderboardData = [];
 // Helper function to navigate to the Stats Viewer page and populate the search field
 function goToStatsViewer(username) {
     // This function assumes a global showPage('stats') function exists to switch the view.
+    // This correctly switches the page and populates the search bar.
     if (typeof showPage === 'function') {
         showPage('stats'); // Switch to the stats page
     } else {
@@ -449,7 +450,7 @@ function renderLeaderboard(page = 1) {
         const row = leaderboardBody.insertRow();
         row.insertCell().textContent = player.rank;
         
-        // Clicking player name links to stats viewer
+        // Correct Link: Clicking player name links to stats viewer
         const nameCell = row.insertCell();
         nameCell.innerHTML = `<a href="#" onclick="goToStatsViewer('${player.username.replace(/'/g, "\\'")}')">${player.username}</a>`;
         nameCell.classList.add('leaderboard-player-name'); 
