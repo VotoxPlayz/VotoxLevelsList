@@ -300,6 +300,26 @@ nav a:hover {
     font-weight: bold;
 }
 
+/* NEW: Level Skillsets style */
+.skillset-display {
+    display: inline-block;
+    margin-left: 5px;
+    color: #aaa;
+    font-weight: normal;
+}
+
+.skillset-display strong {
+    color: var(--text-color);
+    font-weight: normal;
+    margin-left: 5px;
+}
+
+.skillset-display .skill-value {
+    color: var(--accent-color);
+    font-weight: bold;
+    margin-right: 5px;
+}
+
 
 /* --- RECORDS LIST (Right Column) --- */
 #level-victors-list h3 {
@@ -506,6 +526,20 @@ nav a:hover {
 .leaderboard-table tr th:nth-child(1),
 .leaderboard-table tr th:nth-child(3) {
     text-align: center;
+}
+
+/* NEW: Style for clickable player name in leaderboard */
+.leaderboard-player-name a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.leaderboard-player-name a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
 }
 
 /* --- STATS VIEWER STYLING --- */
