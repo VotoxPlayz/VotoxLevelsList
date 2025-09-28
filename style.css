@@ -287,31 +287,17 @@ nav a:hover {
     height: 100%;
 }
 
-/* FIX: Ensure info items (including skillsets) display horizontally */
 .level-info-row p {
     margin-bottom: 8px;
-    display: flex; /* Make the parent <p> a flex container */
-    align-items: flex-start;
 }
 
 .level-info-row strong {
     color: var(--accent-color);
-    /* Set a fixed width for the label for better alignment */
-    min-width: 150px; 
 }
-
 
 .list-points-display {
     color: var(--text-color);
     font-weight: bold;
-}
-
-/* NEW: Level Skillsets style */
-.skillset-display {
-    /* Ensure the skill names (e.g., Ship, Wave, Timings) are treated as a continuous block */
-    display: inline; 
-    color: var(--text-color);
-    font-weight: normal; /* Override any bold setting if inherited */
 }
 
 
@@ -520,20 +506,6 @@ nav a:hover {
 .leaderboard-table tr th:nth-child(1),
 .leaderboard-table tr th:nth-child(3) {
     text-align: center;
-}
-
-/* Style for clickable player name in leaderboard */
-.leaderboard-player-name a {
-    color: var(--text-color);
-    text-decoration: none;
-    font-weight: bold;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.leaderboard-player-name a:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
 }
 
 /* --- STATS VIEWER STYLING --- */
