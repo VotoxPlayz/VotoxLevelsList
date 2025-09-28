@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The VLL - Vaulted Levels List</title>
+    <title>The VLL - Votox Levels List</title>
     <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
@@ -24,7 +24,7 @@
             <div class="welcome-box">
                 <h1 class="welcome-title">WELCOME TO THE VLL!</h1>
                 <p class="welcome-text">
-                     I am <span class="highlight-text">Votox</span>, and this is the official <span class="highlight-text">Votox Levels List (VLL)!</span> This list ranks the hardest levels I have created in Geometry Dash, based on their difficulty. While I use the in-game name <span class="highlight-text">Votox</span> for creation, all levels are published under my GD username, <span class="highlight-text">Finh7</span>.
+                    I am <span class="highlight-text">Votox</span>, and this is the official <span class="highlight-text">Votox Levels List (VLL)!</span> This list ranks the hardest levels I have created in Geometry Dash, based on their difficulty. While I use the in-game name <span class="highlight-text">Votox</span> for creation, all levels are published under my GD username, <span class="highlight-text">Finh7</span>.
                 </p>
                 <div class="home-buttons">
                     <button onclick="changePage('list')">View The List</button>
@@ -49,26 +49,39 @@
         <section id="list-page" class="page hidden">
             <div class="list-container">
                 <div id="level-list-sidebar">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 5px 0;">
+                        <h3 style="border-bottom: none; padding-bottom: 0;">VLL Levels</h3>
+                        <button id="skillset-filter-btn" title="Filter by Skillset" style="background: none; border: none; color: var(--accent-color); font-size: 1.2em; cursor: pointer; padding: 0 5px;">
+                            &#x2338;
+                        </button>
                     </div>
+                    <div id="skillset-filter-controls" class="hidden">
+                        <div class="skillset-checkbox-container" id="skillset-checkbox-container"></div>
+                    </div>
+                    <div id="level-list-body"></div>
+                </div>
                 <div id="level-details-container">
                     <p style="text-align: center; color: #aaa; padding-top: 50px;">Select a level from the sidebar.</p>
                 </div>
                 <div id="level-victors-list"> 
-                    </div>
+                </div>
             </div>
         </section>
         
         <section id="submit-page" class="page hidden">
             <div class="submission-form-container">
                 <h2>RECORD SUBMISSION</h2>
-                <p style="color: #aaa; text-align: center; margin-bottom: 20px;">There are currently 0 submissions in the queue.</p>
+                <p style="color: #aaa; text-align: center; margin-bottom: 20px;">
+                    **Record submissions are currently managed via the Discord server.**<br>
+                    Please join the server and submit your record video link to a staff member.
+                </p>
                 
                 <form id="submission-form" action="javascript:void(0);"> 
                     
                     <label for="submit-level-select">Level: <span class="required-asterisk">*</span></label>
                     <select id="submit-level-select" name="Level" required>
                         <option value="">Select a Level</option>
-                        </select>
+                    </select>
 
                     <label for="username-input">Username: <span class="required-asterisk">*</span></label>
                     <input type="text" id="username-input" name="Username" placeholder="Your Username" required>
@@ -98,7 +111,7 @@
                     <label for="additional-notes">Additional Notes (Optional):</label>
                     <input type="text" id="additional-notes" name="Additional Notes" placeholder="Any additional context for your run.">
                     
-                    <input type="submit" value="Submit Record">
+                    <input type="submit" value="Submit Record" disabled title="Submissions disabled, please use Discord">
                 </form>
 
                 <h3 style="margin-top: 30px; margin-bottom: 10px; color: var(--accent-color);">Submission Guidelines</h3>
@@ -175,7 +188,7 @@
             document.querySelectorAll('nav a').forEach(link => link.classList.remove('highlight-text'));
         }
 
-        function changePage(pageId) {
+        function changePage(pageId, username = null) {
             hideAllPages();
             
             let targetId = `${pageId}-page`;
@@ -201,7 +214,7 @@
                 } else if (pageId === 'leaderboard' && typeof renderLeaderboard === 'function') {
                     renderLeaderboard();
                 } else if (pageId === 'profile' && typeof setupStatsViewer === 'function') {
-                    setupStatsViewer(); // Run setup for the stats viewer
+                    setupStatsViewer(username); // Pass username to setupStatsViewer
                 }
             } else {
                 document.getElementById('home-page').classList.remove('hidden');
@@ -217,233 +230,12 @@
         
         // Initial load check
         document.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.substring(1) || 'home';
-            changePage(hash);
-        });
+            // Check if a username is passed in the URL (e.g., #profile?user=Votox)
+            const hash = window.location.hash.substring(1).split('?')[0] || 'home';
+            const params = new URLSearchParams(window.location.hash.substring(1).split('?')[1]);
+            const username = params.get('user');
 
-    </script>
-
-    <script src="data.js"></script>
-    <script src="script.js"></script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The VLL - Votox Levels List</title>
-    <link rel="stylesheet" href="style.css"> 
-</head>
-<body>
-
-    <header>
-        <a href="#home" class="logo">The VLL</a>
-        <nav>
-            <a href="#list" id="nav-list">The List</a>
-            <a href="#leaderboard" id="nav-leaderboard">Leaderboard</a>
-            <a href="#submit" id="nav-submit">Submit Record</a>
-            <a href="#profile" id="nav-profile">Stats Viewer</a> 
-            <a href="#discord" id="nav-discord">Discord</a>
-        </nav>
-    </header>
-
-    <main>
-        <section id="home-page" class="page centered-page">
-            <div class="welcome-box">
-                <h1 class="welcome-title">WELCOME TO THE VLL!</h1>
-                <p class="welcome-text">
-                    The Votox Levels List (VLL) is a community-maintained list ranking the former top extreme demons that have since been vaulted, based on their difficulty.
-                </p>
-                <div class="home-buttons">
-                    <button onclick="changePage('list')">View The List</button>
-                    <button onclick="changePage('leaderboard')">View Leaderboard</button>
-                </div>
-            </div>
-
-            <div class="changelog-container">
-                <h2>CHANGELOG / CREATOR NOTES</h2>
-                <div class="changelog-entry">
-                    <h3>09/27/2025</h3>
-                    <p>VLL Website launched with initial data.</p>
-                    <p>Verifier points system implemented.</p>
-                    <p>Submission form updated.</p>
-                    <p>Added the former vaulted levels.</p>
-                </div>
-            </div>
-            
-        </section>
-
-
-        <section id="list-page" class="page hidden">
-            <div class="list-container">
-                <div id="level-list-sidebar">
-                    </div>
-                <div id="level-details-container">
-                    <p style="text-align: center; color: #aaa; padding-top: 50px;">Select a level from the sidebar.</p>
-                </div>
-                <div id="level-victors-list"> 
-                    </div>
-            </div>
-        </section>
-        
-        <section id="submit-page" class="page hidden">
-            <div class="submission-form-container">
-                <h2>RECORD SUBMISSION</h2>
-                <p style="color: #aaa; text-align: center; margin-bottom: 20px;">There are currently 0 submissions in the queue.</p>
-                
-                <form id="submission-form" action="javascript:void(0);"> 
-                    
-                    <label for="submit-level-select">Level: <span class="required-asterisk">*</span></label>
-                    <select id="submit-level-select" name="Level" required>
-                        <option value="">Select a Level</option>
-                        </select>
-
-                    <label for="username-input">Username: <span class="required-asterisk">*</span></label>
-                    <input type="text" id="username-input" name="Username" placeholder="Your Username" required>
-
-                    <label for="video-link">Completion Link: <span class="required-asterisk">*</span></label>
-                    <input type="text" id="video-link" name="Completion Link" placeholder="Video link to your completion" required>
-
-                    <div id="raw-footage-row">
-                        <label for="raw-footage">Raw Footage (Required for Top 15):</label>
-                        <input type="text" id="raw-footage" name="Raw Footage" placeholder="Link to your raw footage (Drive/Dropbox/etc)">
-                    </div>
-
-                    <label for="level-id">Level ID (Optional):</label>
-                    <input type="text" id="level-id" name="Level ID" placeholder="ID of the LDM/Bugfix if used">
-
-                    <label for="device-select">Device: <span class="required-asterisk">*</span></label>
-                    <select id="device-select" name="Device" required>
-                        <option value="PC">PC</option>
-                        <option value="Mobile">Mobile</option>
-                    </select>
-                    
-                    <label for="percentage">Best Run Percentage (0-100): <span class="required-asterisk">*</span></label>
-                    <input type="number" id="percentage" name="Best Run Percentage (0-100)" min="0" max="100" placeholder="e.g. 98 or 100" required>
-
-                    <label for="mod-menu">Mod Menu:</label>
-                    <input type="text" id="mod-menu" name="Mod Menu" placeholder="e.g. No Mod Menu">
-
-                    <label for="additional-notes">Additional Notes (Optional):</label>
-                    <input type="text" id="additional-notes" name="Additional Notes" placeholder="Any additional context for your run.">
-                    
-                    <input type="submit" value="Submit Record">
-                </form>
-
-                <h3 style="margin-top: 30px; margin-bottom: 10px; color: var(--accent-color);">Submission Guidelines</h3>
-                <p style="margin-bottom: 15px;">Please review these guidelines carefully before submitting a record:</p>
-                <ul style="list-style-type: disc; margin-left: 20px;">
-                    <li>Your video must be uncut and have clicks audible the whole way through. This ensures authenticity and helps staff verify your run.</li>
-                    <li>Your completion video must be uploaded to YouTube or another recognized video-based platform. Direct social media links (TikTok, Instagram) are not permitted.</li>
-                    <li>You must have a visible cheat indicator if your mod menu has one. This helps verify that no disallowed modifications were used.</li>
-                    <li>The LDM/Bugfix copy of the level has to, without a doubt, not make a significant difference in the level. Minor graphical changes are fine, but any change that simplifies gameplay is forbidden.</li>
-                    <li>Your record can be valid if it ends midway through the endscreen (ONLY if it's impossible to skip to the endscreen). If it's possible, please ensure that you record the record is acceptable.</li>
-                    <li>If your record is in the Top 15, you must submit raw footage, with split audio tracks, in a downloadable format (e.g., Google Drive/Dropbox). This is a mandatory measure for the hardest levels on the list.</li>
-                    <li>Your record cannot contain any disallowed mods or cheats: Click Between Frames (CBF) is allowed, but physics bypass is not.</li>
-                    <li>During your completion, you cannot use skips that make the level significantly easier. This includes major route deviations not intended by the creator.</li>
-                </ul>
-            </div>
-            
-            <h3 style="margin-top: 20px; color: #aaa; text-align: center;">For any questions regarding a submission, please contact the staff via Discord.</h3>
-        </section>
-
-        <section id="leaderboard-page" class="page hidden">
-            <div class="leaderboard-container">
-                <h2>VLL LEADERBOARD</h2>
-                <table class="leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Username</th>
-                            <th>Total Points</th>
-                            <th>Hardest Level</th>
-                            <th>Levels Completed</th> </tr>
-                    </thead>
-                    <tbody id="leaderboard-body">
-                        </tbody>
-                </table>
-            </div>
-        </section>
-        
-        <section id="profile-page" class="page hidden">
-            <div class="stats-viewer-container">
-                <h2>VLL STATS VIEWER</h2>
-                <div class="search-bar">
-                    <input type="text" id="stats-username-input" placeholder="Enter Username to View Stats">
-                    <button onclick="renderPlayerStats()">Search</button>
-                </div>
-                
-                <div id="player-stats-output">
-                    <p style="text-align: center; color: #aaa; margin-top: 20px;">Search for a player to see their rank, points, and completions.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="discord-page" class="page hidden">
-            <h2 style="color: var(--accent-color); text-align: center;">VLL Discord Server</h2>
-            <p style="text-align: center; color: #aaa;">Link to the VLL Discord server goes here.</p>
-            <p style="text-align: center; margin-top: 20px;">
-                <a href="#" style="color: var(--accent-color); font-weight: bold; text-decoration: none;">[Discord Invite Link]</a>
-            </p>
-        </section>
-        
-    </main>
-
-    <script>
-        // --- PAGE ROUTING LOGIC (Kept for the navigation bar) ---
-        function hideAllPages() {
-            document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
-            document.querySelectorAll('nav a').forEach(link => link.classList.remove('highlight-text'));
-        }
-
-        function changePage(pageId) {
-            hideAllPages();
-            
-            // Map 'profile' to 'stats-viewer' for clarity, though HTML ID is 'profile-page'
-            let targetId = `${pageId}-page`;
-            if (pageId === 'profile') targetId = 'profile-page';
-            
-            const targetPage = document.getElementById(targetId);
-            const navLink = document.getElementById(`nav-${pageId}`);
-            
-            if (targetPage) {
-                targetPage.classList.remove('hidden');
-                
-                if (navLink) {
-                    navLink.classList.add('highlight-text');
-                }
-                
-                window.location.hash = pageId;
-
-                // --- Call render functions based on the page ---
-                if (pageId === 'list' && typeof renderLevelList === 'function') {
-                    renderLevelList();
-                } else if (pageId === 'submit' && typeof setupSubmitPage === 'function') {
-                    setupSubmitPage();
-                } else if (pageId === 'leaderboard' && typeof renderLeaderboard === 'function') {
-                    renderLeaderboard();
-                } else if (pageId === 'profile' && typeof renderPlayerStats === 'function') {
-                    // Initial setup of the stats page, but don't run search automatically
-                    document.getElementById('player-stats-output').innerHTML = '<p style="text-align: center; color: #aaa; margin-top: 20px;">Search for a player to see their rank, points, and completions.</p>';
-                }
-            } else {
-                document.getElementById('home-page').classList.remove('hidden');
-                // Highlight home if no valid hash is found
-                document.getElementById('nav-home') ? document.getElementById('nav-home').classList.add('highlight-text') : null;
-                window.location.hash = 'home';
-            }
-        }
-        
-        window.addEventListener('hashchange', () => {
-            const hash = window.location.hash.substring(1) || 'home';
-            changePage(hash);
-        });
-        
-        // Initial load check
-        document.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.substring(1) || 'home';
-            changePage(hash);
+            changePage(hash, username);
         });
 
     </script>
