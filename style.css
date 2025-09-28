@@ -287,13 +287,19 @@ nav a:hover {
     height: 100%;
 }
 
+/* FIX: Ensure info items (including skillsets) display horizontally */
 .level-info-row p {
     margin-bottom: 8px;
+    display: flex; /* Make the parent <p> a flex container */
+    align-items: flex-start;
 }
 
 .level-info-row strong {
     color: var(--accent-color);
+    /* Set a fixed width for the label for better alignment */
+    min-width: 150px; 
 }
+
 
 .list-points-display {
     color: var(--text-color);
@@ -302,22 +308,10 @@ nav a:hover {
 
 /* NEW: Level Skillsets style */
 .skillset-display {
-    display: inline-block;
-    margin-left: 5px;
-    color: #aaa;
-    font-weight: normal;
-}
-
-.skillset-display strong {
+    /* Ensure the skill names (e.g., Ship, Wave, Timings) are treated as a continuous block */
+    display: inline; 
     color: var(--text-color);
-    font-weight: normal;
-    margin-left: 5px;
-}
-
-.skillset-display .skill-value {
-    color: var(--accent-color);
-    font-weight: bold;
-    margin-right: 5px;
+    font-weight: normal; /* Override any bold setting if inherited */
 }
 
 
