@@ -24,7 +24,7 @@
             <div class="welcome-box">
                 <h1 class="welcome-title">WELCOME TO THE VLL!</h1>
                 <p class="welcome-text">
-                    I am <span class="highlight-text">Votox</span>, and this is the official <span class="highlight-text">Votox Levels List (VLL)!</span> This list ranks the hardest levels I have created in Geometry Dash, based on their difficulty. While I use the in-game name <span class="highlight-text">Votox</span> for creation, all levels are published under my GD username, <span class="highlight-text">Finh7</span>.
+                     I am <span class="highlight-text">Votox</span>, and this is the official <span class="highlight-text">Votox Levels List (VLL)!</span> This list ranks the hardest levels I have created in Geometry Dash, based on their difficulty. While I use the in-game name <span class="highlight-text">Votox</span> for creation, all levels are published under my GD username, <span class="highlight-text">Finh7</span>.
                 </p>
                 <div class="home-buttons">
                     <button onclick="changePage('list')">View The List</button>
@@ -49,39 +49,26 @@
         <section id="list-page" class="page hidden">
             <div class="list-container">
                 <div id="level-list-sidebar">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 5px 0;">
-                        <h3 style="border-bottom: none; padding-bottom: 0;">VLL Levels</h3>
-                        <button id="skillset-filter-btn" title="Filter by Skillset" style="background: none; border: none; color: var(--accent-color); font-size: 1.2em; cursor: pointer; padding: 0 5px;">
-                            &#x2338;
-                        </button>
                     </div>
-                    <div id="skillset-filter-controls" class="hidden">
-                        <div class="skillset-checkbox-container" id="skillset-checkbox-container"></div>
-                    </div>
-                    <div id="level-list-body"></div>
-                </div>
                 <div id="level-details-container">
                     <p style="text-align: center; color: #aaa; padding-top: 50px;">Select a level from the sidebar.</p>
                 </div>
                 <div id="level-victors-list"> 
-                </div>
+                    </div>
             </div>
         </section>
         
         <section id="submit-page" class="page hidden">
             <div class="submission-form-container">
                 <h2>RECORD SUBMISSION</h2>
-                <p style="color: #aaa; text-align: center; margin-bottom: 20px;">
-                    **Record submissions are currently managed via the Discord server.**<br>
-                    Please join the server and submit your record video link to a staff member.
-                </p>
+                <p style="color: #aaa; text-align: center; margin-bottom: 20px;">There are currently 0 submissions in the queue.</p>
                 
                 <form id="submission-form" action="javascript:void(0);"> 
                     
                     <label for="submit-level-select">Level: <span class="required-asterisk">*</span></label>
                     <select id="submit-level-select" name="Level" required>
                         <option value="">Select a Level</option>
-                    </select>
+                        </select>
 
                     <label for="username-input">Username: <span class="required-asterisk">*</span></label>
                     <input type="text" id="username-input" name="Username" placeholder="Your Username" required>
@@ -103,7 +90,8 @@
                         <option value="Mobile">Mobile</option>
                     </select>
                     
-                    <label for="percentage">Percentage (0-100): <span class="required-asterisk">*</span></label> <input type="number" id="percentage" name="Percentage (0-100)" min="0" max="100" placeholder="e.g. 98 or 100" required>
+                    <label for="percentage">Best Run Percentage (0-100): <span class="required-asterisk">*</span></label>
+                    <input type="number" id="percentage" name="Best Run Percentage (0-100)" min="0" max="100" placeholder="e.g. 98 or 100" required>
 
                     <label for="mod-menu">Mod Menu:</label>
                     <input type="text" id="mod-menu" name="Mod Menu" placeholder="e.g. No Mod Menu">
@@ -111,27 +99,20 @@
                     <label for="additional-notes">Additional Notes (Optional):</label>
                     <input type="text" id="additional-notes" name="Additional Notes" placeholder="Any additional context for your run.">
                     
-                    <input type="submit" value="Submit Record" disabled title="Submissions disabled, please use Discord">
+                    <input type="submit" value="Submit Record">
                 </form>
 
                 <h3 style="margin-top: 30px; margin-bottom: 10px; color: var(--accent-color);">Submission Guidelines</h3>
                 <p style="margin-bottom: 15px;">Please review these guidelines carefully before submitting a record:</p>
                 <ul style="list-style-type: disc; margin-left: 20px;">
-                    <li><strong>Your video must be uncut and have click/completing audio the whole way through.</strong> This ensures authenticity and helps staff verify your run.</li>
-                    
-                    <li><strong>Your completion video must be uploaded to YouTube or another recognized video-based platform.</strong> Direct social media links (TikTok, Instagram) are not permitted.</li>
-                    
-                    <li><strong>You must have a visible cheat indicator if your mod menu has one.</strong> This helps verify that no disallowed mods were used.</li>
-                    
-                    <li><strong>The LDM/Bugfix copy of the level has to, without a doubt, not make a significant difference in the level</strong>. Minor graphical changes are fine, but any change that simplifies gameplay is forbidden.</li>
-                    
-                    <li><strong>Your video must not end until after you touch the end wall.</strong> If the recording ends before you touch the end wall, it cant be accepted.</li>
-                    
-                    <li><strong>If your record is in the Top 15, you must submit raw footage, with split audio tracks, in a downloadable format (e.g., Google Drive/Dropbox).</strong> This is a mandatory measure for the hardest levels on the list.</li>
-                    
-                    <li><strong>Your record cannot contain any disallowed mods or cheats.</strong> Click Between Frames (CBF) is allowed, but physics bypass is not.</li>
-                    
-                    <li><strong>During your completion, you cannot use skips that make the level significantly easier.</strong> This includes major route deviations not intended by me.</li>
+                    <li>Your video must be uncut and have click/completing audio the whole way through. This ensures authenticity and helps staff verify your run.</li>
+                    <li>Your completion video must be uploaded to YouTube or another recognized video-based platform. Direct social media links (TikTok, Instagram) are not permitted.</li>
+                    <li>You must have a visible cheat indicator if your mod menu has one. This helps verify that no disallowed modifications were used.</li>
+                    <li>The LDM/Bugfix copy of the level has to, without a doubt, not make a significant difference in the level. Minor graphical changes are fine, but any change that simplifies gameplay is forbidden.</li>
+                    <li>Your record can be valid if it ends midway through the endscreen (ONLY if it's impossible to skip to the endscreen). If it's possible, please ensure that you record the record is acceptable.</li>
+                    <li>If your record is in the Top 15, you must submit raw footage, with split audio tracks, in a downloadable format (e.g., Google Drive/Dropbox). This is a mandatory measure for the hardest levels on the list.</li>
+                    <li>Your record cannot contain any disallowed mods or cheats: Click Between Frames (CBF) is allowed, but physics bypass is not.</li>
+                    <li>During your completion, you cannot use skips that make the level significantly easier. This includes major route deviations not intended by the creator.</li>
                 </ul>
             </div>
             
@@ -148,8 +129,7 @@
                             <th>Username</th>
                             <th>Total Points</th>
                             <th>Hardest Level</th>
-                            <th>Levels Completed</th>
-                        </tr>
+                            <th>Levels Completed</th> </tr>
                     </thead>
                     <tbody id="leaderboard-body">
                         </tbody>
@@ -161,7 +141,7 @@
             <div class="stats-viewer-container">
                 <h2>VLL STATS VIEWER</h2>
                 <div class="search-bar">
-                    <input type="text" id="stats-username-input" placeholder="Enter Username to View Stats" onkeydown="if(event.key === 'Enter') renderPlayerStats()">
+                    <input type="text" id="stats-username-input" placeholder="Enter Username to View Stats">
                     <button onclick="renderPlayerStats()">Search</button>
                 </div>
                 
@@ -188,9 +168,10 @@
             document.querySelectorAll('nav a').forEach(link => link.classList.remove('highlight-text'));
         }
 
-        function changePage(pageId, username = null) {
+        function changePage(pageId) {
             hideAllPages();
             
+            // Map 'profile' to 'stats-viewer' for clarity, though HTML ID is 'profile-page'
             let targetId = `${pageId}-page`;
             if (pageId === 'profile') targetId = 'profile-page';
             
@@ -213,11 +194,13 @@
                     setupSubmitPage();
                 } else if (pageId === 'leaderboard' && typeof renderLeaderboard === 'function') {
                     renderLeaderboard();
-                } else if (pageId === 'profile' && typeof setupStatsViewer === 'function') {
-                    setupStatsViewer(username); // Pass username to setupStatsViewer
+                } else if (pageId === 'profile' && typeof renderPlayerStats === 'function') {
+                    // Initial setup of the stats page, but don't run search automatically
+                    document.getElementById('player-stats-output').innerHTML = '<p style="text-align: center; color: #aaa; margin-top: 20px;">Search for a player to see their rank, points, and completions.</p>';
                 }
             } else {
                 document.getElementById('home-page').classList.remove('hidden');
+                // Highlight home if no valid hash is found
                 document.getElementById('nav-home') ? document.getElementById('nav-home').classList.add('highlight-text') : null;
                 window.location.hash = 'home';
             }
@@ -230,12 +213,8 @@
         
         // Initial load check
         document.addEventListener('DOMContentLoaded', () => {
-            // Check if a username is passed in the URL (e.g., #profile?user=Votox)
-            const hash = window.location.hash.substring(1).split('?')[0] || 'home';
-            const params = new URLSearchParams(window.location.hash.substring(1).split('?')[1]);
-            const username = params.get('user');
-
-            changePage(hash, username);
+            const hash = window.location.hash.substring(1) || 'home';
+            changePage(hash);
         });
 
     </script>
