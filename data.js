@@ -15,10 +15,7 @@ const LEVEL_DATA = [
         description: "The ultimate endurance test, in the works since 2022. | Verified by Cuatrocientos in 221.703 attempts.",
         listPercent: 75, // The List% threshold for this level (e.g., 75, 80, 90)
         minWR: 5, // Minimum World Record percentage required for tracking
-        currentWR: null,
-        // UPDATED: Length is now in minutes:seconds format
-        length: "1:35", 
-        skillsets: { ship: 5, wave: 5, timings: 8 }
+        currentWR: null 
     },
     {
         name: "Thinking Space II",
@@ -30,10 +27,7 @@ const LEVEL_DATA = [
         description: "A mindscape of pure insanity, most fall to its brutal nature. Gameplay by CoCy team, deco hosted by DrCuber, Verified by Zoink. Dedicated to Hideki <3",
         listPercent: 80,
         minWR: 10,
-        currentWR: 98, // Example of a non-100% WR
-        // UPDATED: Length is now in minutes:seconds format
-        length: "2:10",
-        skillsets: { ship: 8, wave: 7, timings: 9 }
+        currentWR: 98 // Example of a non-100% WR
     },
     {
         name: "Tidal Wave buffed",
@@ -45,10 +39,7 @@ const LEVEL_DATA = [
         description: "April fools but real!",
         listPercent: 70,
         minWR: 5,
-        currentWR: null,
-        // UPDATED: Length is now in minutes:seconds format
-        length: "1:05",
-        skillsets: { ship: 9, wave: 10, timings: 7 }
+        currentWR: null
     },
     {
         name: "Tidal Wave",
@@ -60,10 +51,7 @@ const LEVEL_DATA = [
         description: "Drown them",
         listPercent: 75,
         minWR: 5,
-        currentWR: 99,
-        // UPDATED: Length is now in minutes:seconds format
-        length: "1:05",
-        skillsets: { ship: 8, wave: 9, timings: 6 }
+        currentWR: 99
     },
     {
         name: "Silent clubstep",
@@ -75,10 +63,7 @@ const LEVEL_DATA = [
         description: "7 years and you still play me?!",
         listPercent: 85,
         minWR: 20,
-        currentWR: null,
-        // UPDATED: Length is now in minutes:seconds format
-        length: "2:00",
-        skillsets: { ship: 7, wave: 6, timings: 9 }
+        currentWR: null
     },
     {
         name: "Avernus",
@@ -90,10 +75,7 @@ const LEVEL_DATA = [
         description: "By Bo & Kyhros - https://discord.gg/YcNkfHMJGv",
         listPercent: 70,
         minWR: 5,
-        currentWR: null,
-        // UPDATED: Length is now in minutes:seconds format
-        length: "1:40",
-        skillsets: { ship: 6, wave: 7, timings: 8 }
+        currentWR: null
     },
     // Add more levels here with the new structure.
 ];
