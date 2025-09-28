@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The VLL - Votox Levels List</title>
+    <title>The VLL - Vaulted Levels List</title>
     <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
@@ -24,7 +24,7 @@
             <div class="welcome-box">
                 <h1 class="welcome-title">WELCOME TO THE VLL!</h1>
                 <p class="welcome-text">
-                     I am <span class="highlight-text">Votox</span>, and this is the official <span class="highlight-text">Votox Levels List (VLL)!</span> This list ranks the hardest levels I have created in Geometry Dash, based on their difficulty. While I use the in-game name <span class="highlight-text">Votox</span> for creation, all levels are published under my GD username, <span class="highlight-text">Finh7</span>.
+                    The **Vaulted Levels List (VLL)** is a community-maintained list ranking the former top extreme demons that have since been vaulted, based on their difficulty.
                 </p>
                 <div class="home-buttons">
                     <button onclick="changePage('list')">View The List</button>
@@ -90,8 +90,7 @@
                         <option value="Mobile">Mobile</option>
                     </select>
                     
-                    <label for="percentage">Best Run Percentage (0-100): <span class="required-asterisk">*</span></label>
-                    <input type="number" id="percentage" name="Best Run Percentage (0-100)" min="0" max="100" placeholder="e.g. 98 or 100" required>
+                    <label for="percentage">Percentage (0-100): <span class="required-asterisk">*</span></label> <input type="number" id="percentage" name="Percentage (0-100)" min="0" max="100" placeholder="e.g. 98 or 100" required>
 
                     <label for="mod-menu">Mod Menu:</label>
                     <input type="text" id="mod-menu" name="Mod Menu" placeholder="e.g. No Mod Menu">
@@ -129,7 +128,8 @@
                             <th>Username</th>
                             <th>Total Points</th>
                             <th>Hardest Level</th>
-                            <th>Levels Completed</th> </tr>
+                            <th>Levels Completed</th>
+                        </tr>
                     </thead>
                     <tbody id="leaderboard-body">
                         </tbody>
@@ -141,7 +141,7 @@
             <div class="stats-viewer-container">
                 <h2>VLL STATS VIEWER</h2>
                 <div class="search-bar">
-                    <input type="text" id="stats-username-input" placeholder="Enter Username to View Stats">
+                    <input type="text" id="stats-username-input" placeholder="Enter Username to View Stats" onkeydown="if(event.key === 'Enter') renderPlayerStats()">
                     <button onclick="renderPlayerStats()">Search</button>
                 </div>
                 
@@ -171,7 +171,6 @@
         function changePage(pageId) {
             hideAllPages();
             
-            // Map 'profile' to 'stats-viewer' for clarity, though HTML ID is 'profile-page'
             let targetId = `${pageId}-page`;
             if (pageId === 'profile') targetId = 'profile-page';
             
@@ -194,13 +193,11 @@
                     setupSubmitPage();
                 } else if (pageId === 'leaderboard' && typeof renderLeaderboard === 'function') {
                     renderLeaderboard();
-                } else if (pageId === 'profile' && typeof renderPlayerStats === 'function') {
-                    // Initial setup of the stats page, but don't run search automatically
-                    document.getElementById('player-stats-output').innerHTML = '<p style="text-align: center; color: #aaa; margin-top: 20px;">Search for a player to see their rank, points, and completions.</p>';
+                } else if (pageId === 'profile' && typeof setupStatsViewer === 'function') {
+                    setupStatsViewer(); // Run setup for the stats viewer
                 }
             } else {
                 document.getElementById('home-page').classList.remove('hidden');
-                // Highlight home if no valid hash is found
                 document.getElementById('nav-home') ? document.getElementById('nav-home').classList.add('highlight-text') : null;
                 window.location.hash = 'home';
             }
