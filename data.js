@@ -1,3 +1,5 @@
+// data.js
+
 /**
  * VLL Levels Data
  * This list is ranked by difficulty, with Rank 1 being the hardest.
@@ -13,9 +15,7 @@ const LEVEL_DATA = [
         description: "The ultimate endurance test, in the works since 2022. | Verified by Cuatrocientos in 221.703 attempts.",
         listPercent: 75, // The List% threshold for this level (e.g., 75, 80, 90)
         minWR: 5, // Minimum World Record percentage required for tracking
-        currentWR: null,
-        skillsets: ["Ship", "Wave", "Timing"], // New Field
-        length: "XL" // New Field
+        currentWR: null 
     },
     {
         name: "Thinking Space II",
@@ -23,13 +23,11 @@ const LEVEL_DATA = [
         publisher: "Finh7",
         verifier: "Zoink",
         id: "119544028",
-        video: "https://www.youtube.com/watch?v=CELNmHwln_c",
+        video: "https://www.youtube.com/watch?v=CELNmHwln_c", 
         description: "A mindscape of pure insanity, most fall to its brutal nature. Gameplay by CoCy team, deco hosted by DrCuber, Verified by Zoink. Dedicated to Hideki <3",
         listPercent: 80,
         minWR: 10,
-        currentWR: 98, // Example of a non-100% WR
-        skillsets: ["Dual", "Wave", "Memory"], // New Field
-        length: "Long" // New Field
+        currentWR: 98 // Example of a non-100% WR
     },
     {
         name: "Tidal Wave buffed",
@@ -37,13 +35,11 @@ const LEVEL_DATA = [
         publisher: "Finh7",
         verifier: "wPopoff",
         id: "116732736",
-        video: "https://www.youtube.com/watch?v=1-ihSeRCpds",
+        video: "https://www.youtube.com/watch?v=1-ihSeRCpds", 
         description: "April fools but real!",
         listPercent: 70,
         minWR: 5,
-        currentWR: null,
-        skillsets: ["Wave", "Ship"], // New Field
-        length: "Medium" // New Field
+        currentWR: null
     },
     {
         name: "Tidal Wave",
@@ -51,13 +47,11 @@ const LEVEL_DATA = [
         publisher: "Finh7",
         verifier: "Zoink",
         id: "86407629",
-        video: "https://www.youtube.com/watch?v=9fsZ014qB3s",
+        video: "https://www.youtube.com/watch?v=9fsZ014qB3s", 
         description: "Drown them",
         listPercent: 75,
         minWR: 5,
-        currentWR: 99,
-        skillsets: ["Wave", "Ship", "Timing"], // New Field
-        length: "Long" // New Field
+        currentWR: 99
     },
     {
         name: "Silent clubstep",
@@ -69,9 +63,7 @@ const LEVEL_DATA = [
         description: "7 years and you still play me?!",
         listPercent: 85,
         minWR: 20,
-        currentWR: null,
-        skillsets: ["Cube", "Wave", "Straight Fly"], // New Field
-        length: "Medium" // New Field
+        currentWR: null
     },
     {
         name: "Avernus",
@@ -83,9 +75,7 @@ const LEVEL_DATA = [
         description: "By Bo & Kyhros - https://discord.gg/YcNkfHMJGv",
         listPercent: 70,
         minWR: 5,
-        currentWR: null,
-        skillsets: ["Wave", "Timing", "Spam"], // New Field
-        length: "Long" // New Field
+        currentWR: null
     },
     // Add more levels here with the new structure.
 ];
@@ -111,7 +101,4 @@ const VICTOR_COMPLETIONS = [
     
     // Example List% run (Flamewall)
     { levelName: "Flamewall", name: "List Run Player", video: "https://example.com/list", date: "2025-10-01", percent: 78, tag: "List Run" },
-
-    // Example Run (Avernus)
-    { levelName: "Avernus", name: "Amongussy", video: "https://example.com/list", date: "2025-09-28", percent: 99, tag: "World Record" },
 ];
