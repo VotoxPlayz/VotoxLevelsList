@@ -71,7 +71,7 @@ const LEVEL_DATA = [
         publisher: "Finh7",
         verifier: "N/A",
         id: "89496627",
-        video: "https://www.youtube.com/watch?v=16Zh8jssanc",
+        video: "https://www.youtube.com/watch?v=GK84N-1dmkc",
         description: "This level was inspired by Overdrive, and was meant to be a new top 1. It's slightly inspired by slaughterhouse, but it's wave sections are similiar to the Sakupen Circles wave sections.",
         listPercent: 67,
         minWR: 8,
