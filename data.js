@@ -42,16 +42,16 @@ const LEVEL_DATA = [
         currentWR: null
     },
     {
-        name: "Tidal Wave",
+        name: "Thinking Space Circles",
         creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7",
-        verifier: "Zoink",
-        id: "86407629",
-        video: "https://www.youtube.com/watch?v=9fsZ014qB3s", 
-        description: "Drown them",
-        listPercent: 75,
-        minWR: 5,
-        currentWR: 99
+        verifier: "N/A",
+        id: "126608933",
+        video: "https://www.youtube.com/watch?v=ACSV7wG7Uq4",
+        description: "This levels wave gameplay was inspired by Sakupen Circles. Like the normal Thinking Space levels, it is fairly end carried. Although, the predrop also accounts for a fair amount of the difficulty.",
+        listPercent: 79,
+        minWR: 6,
+        currentWR: null
     },
     {
         name: "Silent clubstep",
