@@ -18,16 +18,16 @@ const LEVEL_DATA = [
         currentWR: null 
     },
     {
-        name: "Thinking Space II",
+        name: "Hardest Timings Ever",
         creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7",
-        verifier: "Zoink",
-        id: "119544028",
-        video: "https://www.youtube.com/watch?v=CELNmHwln_c", 
-        description: "A mindscape of pure insanity, most fall to its brutal nature. Gameplay by CoCy team, deco hosted by DrCuber, Verified by Zoink. Dedicated to Hideki <3",
-        listPercent: 80,
-        minWR: 10,
-        currentWR: 98 // Example of a non-100% WR
+        verifier: "N/A",
+        id: "126607991",
+        video: "https://www.youtube.com/watch?v=hyfNfKr6MUE",
+        description: "I made this level with the idea that these were the hardest possible timings. The UFO and Wave sections at the drop are notorious for being easier than the other timings. The ship part in the predrop is arguably the hardest part.",
+        listPercent: 42,
+        minWR: 7,
+        currentWR: null // Example of a non-100% WR
     },
     {
         name: "Tidal Wave buffed",
