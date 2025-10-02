@@ -6,15 +6,15 @@
  */
 const LEVEL_DATA = [
     {
-        name: "Flamewall",
+        name: "Dawakipolid",
         creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7", // Publisher: Finh7
-        verifier: "Cuatrocientos",
-        id: "126242564",
-        video: "https://www.youtube.com/watch?v=x4Io4zkWVRw",
-        description: "The ultimate endurance test, in the works since 2022. | Verified by Cuatrocientos in 221.703 attempts.",
-        listPercent: 75, // The List% threshold for this level (e.g., 75, 80, 90)
-        minWR: 5, // Minimum World Record percentage required for tracking
+        verifier: "N/A",
+        id: "86941613",
+        video: "https://www.youtube.com/watch?v=n9LM84_AboM", 
+        description: "This level was purposely made to be impossible. I probably made it when I was 9/10 years old. It was heavily inspired by old slaughterhouse and new slaughterhouse.",
+        listPercent: 46, // The List% threshold for this level (e.g., 75, 80, 90)
+        minWR: 1, // Minimum World Record percentage required for tracking
         currentWR: null 
     },
     {
