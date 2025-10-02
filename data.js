@@ -54,15 +54,15 @@ const LEVEL_DATA = [
         currentWR: null
     },
     {
-        name: "Silent clubstep",
+        name: "Overdrive",
         creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7",
-        verifier: "Paqoe",
-        id: "4125776",
-        video: "https://www.youtube.com/watch?v=GR4OMkS3SN8",
-        description: "7 years and you still play me?!",
-        listPercent: 85,
-        minWR: 20,
+        verifier: "N/A",
+        id: "87291127",
+        video: "https://www.youtube.com/watch?v=JdL63L19qeE",
+        description: "I was probably around 10/11 years old when I made this. The level name comes from a beat saber level I wanted to make, although I never ended up making it. The level actually isn't inspired by anything, and most of the difficulty comes from the ship sections and the wave drop.",
+        listPercent: 43,
+        minWR: 2,
         currentWR: null
     },
     {
