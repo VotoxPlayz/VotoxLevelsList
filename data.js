@@ -30,15 +30,15 @@ const LEVEL_DATA = [
         currentWR: null // Example of a non-100% WR
     },
     {
-        name: "Tidal Wave buffed",
+        name: "Flaemwahl",
         creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7",
-        verifier: "wPopoff",
-        id: "116732736",
-        video: "https://www.youtube.com/watch?v=1-ihSeRCpds", 
-        description: "April fools but real!",
-        listPercent: 70,
-        minWR: 5,
+        verifier: "N/A",
+        id: "126608250",
+        video: "https://www.youtube.com/watch?v=QeAerAhsm-g",  
+        description: "This level is obviously inspired by Flamewall. The main gimmick is that the level gets easier as you go on, which explains the disgustingly low list percent. The last click is also completely blind.",
+        listPercent: 20,
+        minWR: 2,
         currentWR: null
     },
     {
