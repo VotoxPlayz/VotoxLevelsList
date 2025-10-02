@@ -77,7 +77,18 @@ const LEVEL_DATA = [
         minWR: 8,
         currentWR: null
     },
-    // Add more levels here with the new structure.
+    {
+        name: "Legendary Depression",
+        creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
+        publisher: "Finh7",
+        verifier: "N/A",
+        id: "126617358",
+        video: "https://www.youtube.com/watch?v=GK84N-1dmkc",
+        description: "This level is inspired by conical depression. It features long spam corridors and tight gaps that abuse the hitboxes. The gameplay cannot be fun.",
+        listPercent: 44,
+        minWR: 9,
+        currentWR: null
+    },
 ];
 
 /**
