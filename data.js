@@ -66,15 +66,15 @@ const LEVEL_DATA = [
         currentWR: null
     },
     {
-        name: "Avernus",
+        name: "A new top 1",
         creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7",
-        verifier: "Zoink",
+        verifier: "N/A",
         id: "89496627",
         video: "https://www.youtube.com/watch?v=16Zh8jssanc",
-        description: "By Bo & Kyhros - https://discord.gg/YcNkfHMJGv",
-        listPercent: 70,
-        minWR: 5,
+        description: "This level was inspired by Overdrive, and was meant to be a new top 1. It's slightly inspired by slaughterhouse, but it's wave sections are similiar to the Sakupen Circles wave sections.",
+        listPercent: 67,
+        minWR: 8,
         currentWR: null
     },
     // Add more levels here with the new structure.
