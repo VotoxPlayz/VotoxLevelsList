@@ -37,7 +37,7 @@ const LEVEL_DATA = [
         id: "126608250",
         video: "https://www.youtube.com/watch?v=QeAerAhsm-g",  
         description: "This level is obviously inspired by Flamewall. The main gimmick is that the level gets easier as you go on, which explains the disgustingly low list percent. The last click is also completely blind.",
-        listPercent: 14,
+        listPercent: 13,
         minWR: 2,
         currentWR: null
     },
