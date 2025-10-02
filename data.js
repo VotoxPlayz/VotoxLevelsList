@@ -66,7 +66,7 @@ const LEVEL_DATA = [
         currentWR: null
     },
     {
-        name: "A new top 1",
+        name: "A New Top 1",
         creator: "Votox", // RESTORING ORIGINAL VLL CREATOR
         publisher: "Finh7",
         verifier: "N/A",
