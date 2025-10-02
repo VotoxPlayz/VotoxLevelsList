@@ -89,16 +89,6 @@ const VICTOR_COMPLETIONS = [
     // Format: { levelName: "Level Name", name: "Player", video: "Link", date: "YYYY-MM-DD", percent: 100, tag: "Verifier" }
     
     // Example Record (Tidal Wave)
-    { levelName: "Tidal Wave", name: "Zoink", video: "https://www.youtube.com/watch?v=9fsZ014qB3s", date: "2024-02-18", percent: 100, tag: "Verifier" },
-    { levelName: "Tidal Wave", name: "Player B", video: "https://example.com/b", date: "2024-03-01", percent: 100, tag: "First Victor" },
-    { levelName: "Tidal Wave", name: "Player C", video: "https://example.com/c", date: "2024-03-10", percent: 100, tag: "Second Victor" },
-    { levelName: "Tidal Wave", name: "Player D", video: "https://example.com/d", date: "2024-03-15", percent: 100, tag: "Third Victor" },
-    { levelName: "Tidal Wave", name: "Player E", video: "https://example.com/e", date: "2024-03-20", percent: 100, tag: "Victor" }, // Fourth Victor and beyond use 'Victor'
-    
-    // Example WR (Thinking Space II)
-    { levelName: "Thinking Space II", name: "Zoink", video: "https://www.youtube.com/watch?v=CELNmHwln_c", date: "2025-09-19", percent: 100, tag: "Verifier" },
-    { levelName: "Thinking Space II", name: "High Run Player", video: "https://example.com/wr", date: "2025-09-20", percent: 98, tag: "World Record" },
-    
-    // Example List% run (Flamewall)
-    { levelName: "Flamewall", name: "List Run Player", video: "https://example.com/list", date: "2025-10-01", percent: 78, tag: "List Run" },
+    { levelName: "Hardest Timings Ever", name: "Votox", video: "https://medal.tv/games/geometry-dash/clips/ldHYSgXpRsgvWNvuz?invite=cr-MSxycmssMTY5OTQ2NjQ2", date: "2025-10-02", percent: 9, tag: "World Record" },
+  
 ];
