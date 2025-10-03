@@ -26,8 +26,8 @@ const LEVEL_DATA = [
         video: "https://www.youtube.com/watch?v=hyfNfKr6MUE",
         description: "I made this level with the idea that these were the hardest possible timings. The UFO and Wave sections at the drop are notorious for being easier than the other timings. The ship part in the predrop is arguably the hardest part.",
         listPercent: 42,
-        minWR: 10,
-        currentWR: 9 // Example of a non-100% WR
+        minWR: 8,
+        currentWR: null // Example of a non-100% WR
     },
     {
         name: "Flaemwahl",
@@ -100,6 +100,6 @@ const VICTOR_COMPLETIONS = [
     // Format: { levelName: "Level Name", name: "Player", video: "Link", date: "YYYY-MM-DD", percent: 100, tag: "Verifier" }
     
     // Example Record (Tidal Wave)
-    { levelName: "Hardest Timings Ever", name: "Votox", video: "https://medal.tv/games/geometry-dash/clips/ldHYSgXpRsgvWNvuz?invite=cr-MSxycmssMTY5OTQ2NjQ2", date: "2025-10-02", percent: 9, tag: "World Record" },
+    
   
 ];
