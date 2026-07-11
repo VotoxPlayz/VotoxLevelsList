@@ -3,235 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The VLL - Votox Levels List</title>
-    <link rel="stylesheet" href="style.css"> 
+    <title>My Personal Hall of Fame</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <a href="#home" class="logo">The VLL</a>
+        <a href="#" class="logo" onclick="switchPage('home')">MY MILESTONES</a>
         <nav>
-            <a href="#list" id="nav-list">The List</a>
-            <a href="#leaderboard" id="nav-leaderboard">Leaderboard</a>
-            <a href="#submit" id="nav-submit">Submit Record</a>
-            <a href="#profile" id="nav-profile">Stats Viewer</a> 
-            <a href="#discord" id="nav-discord">Discord</a>
+            <a href="#" id="nav-home" onclick="switchPage('home')">Home</a>
+            <a href="#" id="nav-rankings" onclick="switchPage('rankings')">The Rankings</a>
+            <a href="#" id="nav-analytics" onclick="switchPage('analytics')">Stats Dashboard</a>
+            <a href="#" id="nav-goals" class="highlight-text" onclick="switchPage('goals')">Future Goals</a>
         </nav>
     </header>
 
-    <main>
-        <section id="home-page" class="page centered-page">
-            <div class="welcome-box">
-                <h1 class="welcome-title">WELCOME TO THE VLL!</h1>
-                <p class="welcome-text">
-                I am <span class="highlight-text">Votox</span>, and this is the official <span class="highlight-text">Votox Levels List (VLL)!</span> This list ranks the hardest levels I have created in Geometry Dash, based on their difficulty. While I use the in-game name <span class="highlight-text">Votox</span> for creation, all levels are published under my GD username, <span class="highlight-text">Finh7</span>.
-                </p>
-                <div class="home-buttons">
-                    <button onclick="changePage('list')">View The List</button>
-                    <button onclick="changePage('leaderboard')">View Leaderboard</button>
-                </div>
-            </div>
-
-           <div class="changelog-container">
-    <h2>CHANGELOG / CREATOR NOTES</h2>
-    <div class="changelog-entry">
-        <h3>10/03/2025</h3>
-        <p><strong>- Legendary Depression</strong> has been placed at <strong>#7</strong> (above <strong>Noctecron</strong> and below <strong>A New Top 1</strong>), with a list percent of <strong>44%</strong>.</p>
-        <p><strong>- Flaemwahl's</strong> list percent has been lowered from <strong>20%</strong> to <strong>13%</strong>.</p>
-    </div>
-    <div class="changelog-entry">
-        <h3>10/02/2025</h3>
-        <p><strong>- Dawakipolid</strong> has been placed at <strong>#1</strong> (above <strong>Hardest Timings Ever</strong>), with a list percent of <strong>46%</strong>.</p>
-        <p><strong>- Hardest Timings Ever</strong> has been placed at <strong>#2</strong> (above <strong>Flaemwahl</strong> and below <strong>Dawakipolid</strong>), with a list percent of <strong>42%</strong>.</p>
-        <p><strong>- Flaemwahl</strong> has been placed at <strong>#3</strong> (above <strong>Thinking Space Circles</strong> and below <strong>Hardest Timings Ever</strong>), with a list percent of <strong>20%</strong>.</p>
-        <p><strong>- Thinking Space Circles</strong> has been placed at <strong>#4</strong> (above <strong>Overdrive</strong> and below <strong>Flaemwahl</strong>), with a list percent of <strong>79%</strong>.</p>
-        <p><strong>- Overdrive</strong> has been placed at <strong>#5</strong> (above <strong>A New Top 1</strong> and below <strong>Thinking Space Circles</strong>), with a list percent of <strong>43%</strong>.</p>
-        <p><strong>- A New Top 1</strong> has been placed at <strong>#6</strong> (above <strong>Legendary Depression</strong> and below <strong>Overdrive</strong>), with a list percent of <strong>67%</strong>.</p>
-    </div>
-    <div class="changelog-entry">
-        <h3>09/27/2025</h3>
-        <p>VLL Website launched with initial data.</p>
-        <p>Points system implemented.</p>
-        <p>Submission form updated.</p>
-    </div>
-</div>
-            
-        </section>
-
-
-        <section id="list-page" class="page hidden">
-            <div class="list-container">
-                <div id="level-list-sidebar">
-                    </div>
-                <div id="level-details-container">
-                    <p style="text-align: center; color: #aaa; padding-top: 50px;">Select a level from the sidebar.</p>
-                </div>
-                <div id="level-victors-list"> 
-                    </div>
-            </div>
-        </section>
-        
-        <section id="submit-page" class="page hidden">
-            <div class="submission-form-container">
-                <h2>RECORD SUBMISSION</h2>
-                <p style="color: #aaa; text-align: center; margin-bottom: 20px;">There are currently 0 submissions in the queue.</p>
-                
-                <form id="submission-form" action="javascript:void(0);"> 
-                    
-                    <label for="submit-level-select">Level: <span class="required-asterisk">*</span></label>
-                    <select id="submit-level-select" name="Level" required>
-                        <option value="">Select a Level</option>
-                        </select>
-
-                    <label for="username-input">Username: <span class="required-asterisk">*</span></label>
-                    <input type="text" id="username-input" name="Username" placeholder="Your Username" required>
-
-                    <label for="video-link">Completion Link: <span class="required-asterisk">*</span></label>
-                    <input type="text" id="video-link" name="Completion Link" placeholder="Video link to your completion" required>
-
-                    <div id="raw-footage-row">
-                        <label for="raw-footage">Raw Footage (Required for Top 15):</label>
-                        <input type="text" id="raw-footage" name="Raw Footage" placeholder="Link to your raw footage (Drive/Dropbox/etc)">
-                    </div>
-
-                    <label for="level-id">Level ID (Optional):</label>
-                    <input type="text" id="level-id" name="Level ID" placeholder="ID of the LDM/Bugfix if used">
-
-                    <label for="device-select">Device: <span class="required-asterisk">*</span></label>
-                    <select id="device-select" name="Device" required>
-                        <option value="PC">PC</option>
-                        <option value="Mobile">Mobile</option>
-                    </select>
-                    
-                    <label for="percentage">Percentage (0-100): <span class="required-asterisk">*</span></label> <input type="number" id="percentage" name="Percentage (0-100)" min="0" max="100" placeholder="e.g. 98 or 100" required>
-
-                    <label for="mod-menu">Mod Menu:</label>
-                    <input type="text" id="mod-menu" name="Mod Menu" placeholder="e.g. No Mod Menu">
-
-                    <label for="additional-notes">Additional Notes (Optional):</label>
-                    <input type="text" id="additional-notes" name="Additional Notes" placeholder="Any additional context for your run.">
-                    
-                    <input type="submit" value="Submit Record">
-                </form>
-
-                <h3 style="margin-top: 30px; margin-bottom: 10px; color: var(--accent-color);">Submission Guidelines</h3>
-                <p style="margin-bottom: 15px;">Please review these guidelines carefully before submitting a record:</p>
-                <ul style="list-style-type: disc; margin-left: 20px;">
-                    <li><strong>Your video must be uncut and have clicks audible the whole way through.</strong> This ensures authenticity and helps staff verify your run.</li>
-                    <li><strong>Your completion video must be uploaded to YouTube or another recognized video-based platform.</strong> Direct social media links (TikTok, Instagram) are not permitted.</li>
-                    <li><strong>You must have a visible cheat indicator if your mod menu has one.</strong> This helps verify that no disallowed mods were used.</li>
-                    <li><strong>The LDM/Bugfix copy of the level has to, without a doubt, not make a significant difference in the level.</strong> Minor graphical changes are fine, but any change that simplifies gameplay is forbidden.</li>
-                    <li><strong>Your video must not end until the player touches the end wall.</strong> If it's possible, please ensure that your record ends after the player touches the endwall.</li>
-                    <li><strong>If your record is in the Top 15, you must submit raw footage, with split audio tracks, in a downloadable format (e.g., Google Drive/Dropbox).</strong> This is a mandatory measure for the hardest levels on the list.</li>
-                    <li><strong>Your record cannot contain any disallowed mods or cheats.</strong> Click Between Frames (CBF) is allowed, but physics bypass is not.</li>
-                    <li><strong>During your completion, you cannot use skips that make the level significantly easier.</strong> This includes major route deviations not intended by me.</li>
-                    <li><strong>Percentages are calculated in 2.1.</strong> Install the 'Percentage Toggle' Mod on Geode to accurately get percentages for VLL levels.</li>
-                </ul>
-            </div>
-            
-            <h3 style="margin-top: 20px; color: #aaa; text-align: center;">For any questions regarding a submission, please contact the staff via Discord.</h3>
-        </section>
-
-        <section id="leaderboard-page" class="page hidden">
-            <div class="leaderboard-container">
-                <h2>VLL LEADERBOARD</h2>
-                <table class="leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Username</th>
-                            <th>Total Points</th>
-                            <th>Hardest Level</th>
-                            <th>Levels Completed</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboard-body">
-                        </tbody>
-                </table>
-            </div>
-        </section>
-        
-        <section id="profile-page" class="page hidden">
-            <div class="stats-viewer-container">
-                <h2>VLL STATS VIEWER</h2>
-                <div class="search-bar">
-                    <input type="text" id="stats-username-input" placeholder="Enter Username to View Stats" onkeydown="if(event.key === 'Enter') renderPlayerStats()">
-                    <button onclick="renderPlayerStats()">Search</button>
-                </div>
-                
-                <div id="player-stats-output">
-                    <p style="text-align: center; color: #aaa; margin-top: 20px;">Search for a player to see their rank, points, and completions.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="discord-page" class="page hidden">
-            <h2 style="color: var(--accent-color); text-align: center;">VLL Discord Server</h2>
-            <p style="text-align: center; color: #aaa;">Link to the VLL Discord server goes here.</p>
-            <p style="text-align: center; margin-top: 20px;">
-                <a href="#" style="color: var(--accent-color); font-weight: bold; text-decoration: none;">[Discord Invite Link]</a>
+    <div id="page-home" class="page centered-page">
+        <div class="welcome-box">
+            <h1 class="welcome-title">Personal Showcase</h1>
+            <p class="welcome-text">
+                Welcome to my interactive showcase dashboard. This application functions as a dynamic archival hub ranking my hardest personal milestones across gaming, software engineering, fitness, and creative pursuits. 
             </p>
-        </section>
-        
-    </main>
+            <div class="home-buttons">
+                <button onclick="switchPage('rankings')">Explore Achievements</button>
+                <button onclick="switchPage('analytics')">View Metrics</button>
+            </div>
+        </div>
 
-    <script>
-        // --- PAGE ROUTING LOGIC (Kept for the navigation bar) ---
-        function hideAllPages() {
-            document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
-            document.querySelectorAll('nav a').forEach(link => link.classList.remove('highlight-text'));
-        }
+        <div class="summary-box">
+            <h2>Current Milestone Summary</h2>
+            <p>Tracking high-tier personal victories categorized by mechanical depth, required training investments, and execution difficulty.</p>
+        </div>
+    </div>
 
-        function changePage(pageId) {
-            hideAllPages();
+    <div id="page-rankings" class="page hidden">
+        <div class="rankings-container">
+            <div id="achievement-sidebar">
+                <h3>The Tier List</h3>
+                </div>
+            <div id="achievement-details">
+                </div>
+        </div>
+    </div>
+
+    <div id="page-analytics" class="page hidden">
+        <div class="analytics-container">
+            <h2>Milestone Metrics Dashboard</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="value" id="stat-total-count">0</div>
+                    <div class="label">Total Major Accomplishments</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="stat-highest-diff">0/10</div>
+                    <div class="label">Peak Execution Difficulty</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="stat-top-category">N/A</div>
+                    <div class="label">Primary Domain</div>
+                </div>
+            </div>
             
-            let targetId = `${pageId}-page`;
-            if (pageId === 'profile') targetId = 'profile-page';
-            
-            const targetPage = document.getElementById(targetId);
-            const navLink = document.getElementById(`nav-${pageId}`);
-            
-            if (targetPage) {
-                targetPage.classList.remove('hidden');
-                
-                if (navLink) {
-                    navLink.classList.add('highlight-text');
-                }
-                
-                window.location.hash = pageId;
+            <div class="category-breakdown-section">
+                <h3>Accomplishment Domain Mix</h3>
+                <div id="category-bars-container">
+                    </div>
+            </div>
+        </div>
+    </div>
 
-                // --- Call render functions based on the page ---
-                if (pageId === 'list' && typeof renderLevelList === 'function') {
-                    renderLevelList();
-                } else if (pageId === 'submit' && typeof setupSubmitPage === 'function') {
-                    setupSubmitPage();
-                } else if (pageId === 'leaderboard' && typeof renderLeaderboard === 'function') {
-                    renderLeaderboard();
-                } else if (pageId === 'profile' && typeof setupStatsViewer === 'function') {
-                    setupStatsViewer(); // Run setup for the stats viewer
-                }
-            } else {
-                document.getElementById('home-page').classList.remove('hidden');
-                document.getElementById('nav-home') ? document.getElementById('nav-home').classList.add('highlight-text') : null;
-                window.location.hash = 'home';
-            }
-        }
-        
-        window.addEventListener('hashchange', () => {
-            const hash = window.location.hash.substring(1) || 'home';
-            changePage(hash);
-        });
-        
-        // Initial load check
-        document.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.substring(1) || 'home';
-            changePage(hash);
-        });
-
-    </script>
+    <div id="page-goals" class="page hidden">
+        <div class="goals-container">
+            <h2>Active Challenges & Backlog</h2>
+            <p class="goals-subtitle">The next frontiers. Tracking high-tier ambitions currently undergoing research, mechanical training, or layout structuring.</p>
+            
+            <div id="goals-grid-output">
+                </div>
+        </div>
+    </div>
 
     <script src="data.js"></script>
     <script src="script.js"></script>
 
+    <script>
+        function switchPage(pageId) {
+            // Hide all pages safely
+            document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+            
+            // Render target page container visible
+            const targetPage = document.getElementById('page-' + pageId);
+            if (targetPage) targetPage.classList.remove('hidden');
+
+            // Route execution commands to individual processing modules
+            if (pageId === 'rankings') {
+                renderRankingsView();
+            } else if (pageId === 'analytics') {
+                generateDashboardMetrics();
+            } else if (pageId === 'goals') {
+                renderFutureGoalsView();
+            }
+        }
+    </script>
 </body>
 </html>
